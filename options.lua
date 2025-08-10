@@ -40,19 +40,37 @@ cbPvPKill:SetPoint("TOPLEFT", cbBossKill, "BOTTOMLEFT", 0, -8)
 local cbPeriodic = CreateCheckbox("SJ_CB_Periodic", "Timed Screenshot", "Take screenshot every set periodic interval", "periodic")
 cbPeriodic:SetPoint("TOPLEFT", cbPvPKill, "BOTTOMLEFT", 0, -8)
 
-local slider = CreateFrame("Slider", "SJ_TimerSlider", panel, "OptionsSliderTemplate")
-slider:SetWidth(200)
-slider:SetHeight(16)
-slider:SetOrientation('HORIZONTAL')
-slider:SetPoint("TOPLEFT", cbPeriodic, "BOTTOMLEFT", 0, -24)
-slider:SetMinMaxValues(60, 1800) -- 1 min to 30 min
-slider:SetValueStep(60)
-_G[slider:GetName() .. 'Low']:SetText('1m')
-_G[slider:GetName() .. 'High']:SetText('30m')
-_G[slider:GetName() .. 'Text']:SetText("Timer Interval (seconds)")
+local lblInterval = panel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+lblInterval:SetPoint("LEFT", cbPeriodic, "RIGHT", 116, 0)
+lblInterval:SetText("Interval (seconds)")
 
-slider:SetScript("OnValueChanged", function(self, value)
-    ScreenshotJourney_Config.periodicInterval = value
+local txtInterval = CreateFrame("EditBox", "SJ_TXT_Interval", panel, "InputBoxTemplate")
+txtInterval:SetSize(60, 20)
+txtInterval:SetPoint("LEFT", lblInterval, "RIGHT", 8, 0)
+txtInterval:SetAutoFocus(false)
+
+txtInterval:SetScript("OnEnterPressed", function(self)
+    local text = self:GetText()
+    local num = tonumber(text)
+    if num and num >= 1 then
+        ScreenshotJourney_Config.periodicInterval = num
+    else
+        -- revert if invalid
+        self:SetText(tostring(ScreenshotJourney_Config.periodicInterval))
+    end
+    self:ClearFocus()
+end)
+
+txtInterval:SetScript("OnEscapePressed", function(self)
+    self:SetText(tostring(ScreenshotJourney_Config.periodicInterval))
+    self:ClearFocus()
+end)
+
+-- Can't set this in the panel.refresh, have to do it when the text box becomes visible
+txtInterval:SetScript("OnShow", function(self)
+    if not self:HasFocus() then
+        self:SetText(tostring(ScreenshotJourney_Config.periodicInterval))
+    end
 end)
 
 panel.refresh = function()
@@ -63,7 +81,6 @@ panel.refresh = function()
     cbBossKill:SetChecked(ScreenshotJourney_Config.bossKill)
     cbPvPKill:SetChecked(ScreenshotJourney_Config.pvpKill)
     cbPeriodic:SetChecked(ScreenshotJourney_Config.periodic)
-    slider:SetValue(ScreenshotJourney_Config.periodicInterval)
 end
 
 InterfaceOptions_AddCategory(panel)
