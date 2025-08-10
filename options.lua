@@ -83,14 +83,26 @@ local txtInterval = CreateFrame("EditBox", "SJ_TXT_Interval", panel, "InputBoxTe
 txtInterval:SetSize(60, 20)
 txtInterval:SetPoint("LEFT", lblInterval, "RIGHT", 8, 0)
 txtInterval:SetAutoFocus(false)
+txtInterval:SetNumeric(true)
+
+-- Overrides the created in CreateCheckbox, that it why it needs to set the value in the config as well
+cbPeriodic:SetScript("OnClick", function(self)
+    ScreenshotJourney_Config.periodic = self:GetChecked()
+    if self:GetChecked() then
+        txtInterval:EnableMouse(true)
+        txtInterval:SetTextColor(1, 1, 1)
+    else
+        txtInterval:EnableMouse(false)
+        txtInterval:ClearFocus()
+        txtInterval:SetTextColor(0.5, 0.5, 0.5)
+    end
+end)
 
 txtInterval:SetScript("OnEnterPressed", function(self)
-    local text = self:GetText()
-    local num = tonumber(text)
-    if num and num >= 1 then
+    local num = tonumber(self:GetText())
+    if num and num >= 300 then
         ScreenshotJourney_Config.periodicInterval = num
     else
-        -- revert if invalid
         self:SetText(tostring(ScreenshotJourney_Config.periodicInterval))
     end
     self:ClearFocus()
@@ -132,6 +144,15 @@ panel.refresh = function()
         cbLootBlue:Disable()
         cbLootPurple:Disable()
         cbLootOrange:Disable()
+    end
+
+    if ScreenshotJourney_Config.periodic then
+        txtInterval:EnableMouse(true)
+        txtInterval:SetTextColor(1, 1, 1)
+    else
+        txtInterval:EnableMouse(false)
+        txtInterval:ClearFocus()
+        txtInterval:SetTextColor(0.5, 0.5, 0.5)
     end
 end
 
