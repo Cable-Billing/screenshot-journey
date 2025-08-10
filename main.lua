@@ -62,7 +62,7 @@ f:SetScript("OnEvent", function(self, event, ...)
     elseif event == "CHAT_MSG_LOOT" and ScreenshotJourney_Config.lootReceived then
         local msg = ...
         if msg:find("You receive loot") or msg:find("You won") then
-            local itemLink = msg:match("|Hitem:%d+:%d+:%d+:%d+|h%[.-%]|h")
+            local itemLink = msg:match("(|c%x+|Hitem:.-|h%[.-%]|h|r)")
             if itemLink then
                 local _, _, quality = GetItemInfo(itemLink)
 
