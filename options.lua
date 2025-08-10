@@ -34,8 +34,11 @@ cbQuestComplete:SetPoint("TOPLEFT", cbAchievementEarned, "BOTTOMLEFT", 0, -8)
 local cbBossKill = CreateCheckbox("SJ_CB_BossKill", "Boss Kill", "Take screenshot when you or your party kills an instance boss", "bossKill")
 cbBossKill:SetPoint("TOPLEFT", cbQuestComplete, "BOTTOMLEFT", 0, -8)
 
+local cbLootRoll = CreateCheckbox("SJ_CB_LootRoll", "Loot Roll", "Take screenshot when loot is to be rolled on", "lootRoll")
+cbLootRoll:SetPoint("TOPLEFT", cbBossKill, "BOTTOMLEFT", 0, -8)
+
 local cbPvPKill = CreateCheckbox("SJ_CB_PvPKill", "PvP Kill", "Take screenshot when you or your party kills another player", "pvpKill")
-cbPvPKill:SetPoint("TOPLEFT", cbBossKill, "BOTTOMLEFT", 0, -8)
+cbPvPKill:SetPoint("TOPLEFT", cbLootRoll, "BOTTOMLEFT", 0, -8)
 
 local cbPeriodic = CreateCheckbox("SJ_CB_Periodic", "Timed Screenshot", "Take screenshot every set periodic interval", "periodic")
 cbPeriodic:SetPoint("TOPLEFT", cbPvPKill, "BOTTOMLEFT", 0, -8)

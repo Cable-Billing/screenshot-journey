@@ -4,6 +4,7 @@ ScreenshotJourney_Config = ScreenshotJourney_Config or {
     achievementEarned = true,
     questComplete = false,
     bossKill = true,
+    lootRoll = true,
     pvpKill = true,
     periodic = false,
     periodicInterval = 1800,
@@ -26,6 +27,8 @@ f:SetScript("OnEvent", function(self, event, ...)
     elseif event == "ACHIEVEMENT_EARNED" and ScreenshotJourney_Config.achievementEarned then
         TakeScreenshotDelayed(1.0)
     elseif event == "QUEST_TURNED_IN" and ScreenshotJourney_Config.questComplete then
+        TakeScreenshotDelayed(0.1)
+    elseif event == "START_LOOT_ROLL" and ScreenshotJourney_Config.lootRoll then
         TakeScreenshotDelayed(0.1)
     elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
         local timestamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = ...
@@ -57,6 +60,7 @@ f:RegisterEvent("PLAYER_DEAD")
 f:RegisterEvent("ACHIEVEMENT_EARNED")
 f:RegisterEvent("QUEST_TURNED_IN")
 f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+f:RegisterEvent("START_LOOT_ROLL")
 
 f:SetScript("OnUpdate", function(self, elapsed)
     -- Periodic screenshot timer
