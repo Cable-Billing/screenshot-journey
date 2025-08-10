@@ -135,8 +135,11 @@ end)
 local cbPvPKill = CreateCheckbox("SJ_CB_PvPKill", "PvP Kill", "Take screenshot when you or your party kills another player", "pvpKill")
 cbPvPKill:SetPoint("TOPLEFT", cbLootReceivedOrange, "BOTTOMLEFT", -20, -8)
 
+local cbBattlegroundArenaEnd = CreateCheckbox("SJ_CB_BattlegroundArenaEnd", "Battleground/Arena End", "Take screenshot when a battleground or arena match ends and scoreboard appears", "battlegroundArenaEnd")
+cbBattlegroundArenaEnd:SetPoint("TOPLEFT", cbPvPKill, "BOTTOMLEFT", 0, -8)
+
 local cbPeriodic = CreateCheckbox("SJ_CB_Periodic", "Periodic Screenshot", "Take screenshot every set periodic interval", "periodic")
-cbPeriodic:SetPoint("TOPLEFT", cbPvPKill, "BOTTOMLEFT", 0, -8)
+cbPeriodic:SetPoint("TOPLEFT", cbBattlegroundArenaEnd, "BOTTOMLEFT", 0, -8)
 
 local txtInterval = CreateFrame("EditBox", "SJ_TXT_Interval", content, "InputBoxTemplate")
 txtInterval:SetSize(60, 20)
@@ -212,6 +215,7 @@ panel.refresh = function()
     cbLootReceivedPurple:SetChecked(ScreenshotJourney_Config.lootReceivedPurple)
     cbLootReceivedOrange:SetChecked(ScreenshotJourney_Config.lootReceivedOrange)
     cbPvPKill:SetChecked(ScreenshotJourney_Config.pvpKill)
+    cbBattlegroundArenaEnd:SetChecked(ScreenshotJourney_Config.battlegroundArenaEnd)
     cbPeriodic:SetChecked(ScreenshotJourney_Config.periodic)
 
     if ScreenshotJourney_Config.lootRoll then

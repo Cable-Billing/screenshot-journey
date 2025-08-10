@@ -15,13 +15,10 @@ ScreenshotJourney_Config = ScreenshotJourney_Config or {
     lootReceivedPurple = true,
     lootReceivedOrange = true,
     pvpKill = true,
+    battlegroundArenaEnd = true,
     periodic = false,
     periodicInterval = 1800,
 }
-
--- TODO
--- When a battleground ends
--- When an arena match ends
 
 local f = CreateFrame("Frame")
 local elapsedSinceLast = 0
@@ -104,6 +101,12 @@ f:SetScript("OnEvent", function(self, event, ...)
                 -- TakeScreenshotDelayed(0.1)
             end
         end
+    elseif event == "UPDATE_BATTLEFIELD_SCORE" and ScreenshotJourney_Config.battlegroundArenaEnd then
+        local inInstance, instanceType = IsInInstance()
+
+        if (instanceType == "pvp" or instanceType == "arena") then
+            TakeScreenshotDelayed(0.5)
+        end
     end
 end)
 
@@ -114,6 +117,7 @@ f:RegisterEvent("QUEST_TURNED_IN")
 f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 f:RegisterEvent("START_LOOT_ROLL")
 f:RegisterEvent("CHAT_MSG_LOOT")
+f:RegisterEvent("UPDATE_BATTLEFIELD_SCORE")
 
 f:SetScript("OnUpdate", function(self, elapsed)
     -- Periodic screenshot timer
