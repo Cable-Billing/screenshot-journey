@@ -12,24 +12,25 @@ local elapsedSinceLast = 0
 local delayQueue = {}
 
 local function TakeScreenshotDelayed(delay)
+    -- Add a new delay timer to the queue
     table.insert(delayQueue, delay)
 end
 
-f:SetScript("OnEvent", function(self, event, ...)
-    local function queueScreenshot()
-        TakeScreenshotDelayed(0.1)
-    end
+local function QueueScreenshot()
+    TakeScreenshotDelayed(0.1)
+end
 
+f:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_LEVEL_UP" and ScreenshotJourney_Config.levelUp then
-        queueScreenshot()
+        QueueScreenshot()
     elseif event == "QUEST_TURNED_IN" and ScreenshotJourney_Config.questComplete then
-        queueScreenshot()
+        QueueScreenshot()
     elseif event == "BOSS_KILL" and ScreenshotJourney_Config.bossKill then
-        queueScreenshot()
+        QueueScreenshot()
     elseif event == "COMBAT_LOG_EVENT_UNFILTERED" and ScreenshotJourney_Config.pvpKill then
         local _, subEvent, _, _, _, _, _, destGUID, destName, destFlags = CombatLogGetCurrentEventInfo()
         if subEvent == "PARTY_KILL" and bit.band(destFlags, COMBATLOG_OBJECT_TYPE_PLAYER) > 0 then
-            queueScreenshot()
+            QueueScreenshot()
         end
     end
 end)
@@ -40,7 +41,7 @@ f:RegisterEvent("BOSS_KILL")
 f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 
 f:SetScript("OnUpdate", function(self, elapsed)
-    -- Process periodic screenshots
+    -- Periodic screenshot timer
     if ScreenshotJourney_Config.periodic then
         elapsedSinceLast = elapsedSinceLast + elapsed
         if elapsedSinceLast >= ScreenshotJourney_Config.periodicInterval then
@@ -49,7 +50,7 @@ f:SetScript("OnUpdate", function(self, elapsed)
         end
     end
 
-    -- Process delay queue
+    -- Process delayed screenshots
     for i = #delayQueue, 1, -1 do
         delayQueue[i] = delayQueue[i] - elapsed
         if delayQueue[i] <= 0 then
