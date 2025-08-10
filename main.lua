@@ -1,35 +1,39 @@
 local f = CreateFrame("Frame")
 
+-- Default config
 local defaults = {
     enableLevelUp = true,
     enableQuest = true,
     enableBoss = true,
     enablePvP = true,
     enableTimer = true,
-    timerInterval = 300,
+    timerInterval = 300, -- seconds
 }
 
+-- Init config
 local function InitConfig()
-    if not AutoScreenshot_Config then
-        AutoScreenshot_Config = {}
+    if not ScreenshotJourney_Config then
+        ScreenshotJourney_Config = {}
     end
     for k, v in pairs(defaults) do
-        if AutoScreenshot_Config[k] == nil then
-            AutoScreenshot_Config[k] = v
+        if ScreenshotJourney_Config[k] == nil then
+            ScreenshotJourney_Config[k] = v
         end
     end
 end
 
+-- Timer tracking
 local elapsedSinceLast = 0
 
+-- Event handler
 f:SetScript("OnEvent", function(self, event, ...)
-    if event == "PLAYER_LEVEL_UP" and AutoScreenshot_Config.enableLevelUp then
+    if event == "PLAYER_LEVEL_UP" and ScreenshotJourney_Config.enableLevelUp then
         Screenshot()
-    elseif event == "QUEST_TURNED_IN" and AutoScreenshot_Config.enableQuest then
+    elseif event == "QUEST_TURNED_IN" and ScreenshotJourney_Config.enableQuest then
         Screenshot()
-    elseif event == "BOSS_KILL" and AutoScreenshot_Config.enableBoss then
+    elseif event == "BOSS_KILL" and ScreenshotJourney_Config.enableBoss then
         Screenshot()
-    elseif event == "COMBAT_LOG_EVENT_UNFILTERED" and AutoScreenshot_Config.enablePvP then
+    elseif event == "COMBAT_LOG_EVENT_UNFILTERED" and ScreenshotJourney_Config.enablePvP then
         local _, subEvent, _, _, _, _, _, destGUID, destName, destFlags = CombatLogGetCurrentEventInfo()
         if subEvent == "PARTY_KILL" and bit.band(destFlags, COMBATLOG_OBJECT_TYPE_PLAYER) > 0 then
             Screenshot()
@@ -39,32 +43,35 @@ f:SetScript("OnEvent", function(self, event, ...)
     end
 end)
 
+-- Register events
 f:RegisterEvent("PLAYER_LOGIN")
 f:RegisterEvent("PLAYER_LEVEL_UP")
 f:RegisterEvent("QUEST_TURNED_IN")
 f:RegisterEvent("BOSS_KILL")
 f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 
+-- OnUpdate for periodic screenshots
 f:SetScript("OnUpdate", function(self, elapsed)
-    if AutoScreenshot_Config.enableTimer then
+    if ScreenshotJourney_Config.enableTimer then
         elapsedSinceLast = elapsedSinceLast + elapsed
-        if elapsedSinceLast >= AutoScreenshot_Config.timerInterval then
+        if elapsedSinceLast >= ScreenshotJourney_Config.timerInterval then
             elapsedSinceLast = 0
             Screenshot()
         end
     end
 end)
 
-SLASH_AUTOSCREENSHOT1 = "/as"
-SlashCmdList["AUTOSCREENSHOT"] = function(msg)
+-- Slash commands
+SLASH_SCREENSHOTJOURNEY1 = "/sj"
+SlashCmdList["SCREENSHOTJOURNEY"] = function(msg)
     local cmd, arg = msg:match("^(%S+)%s*(%S*)$")
     if not cmd or cmd == "" then
-        print("AutoScreenshot commands:")
-        print("/as levelup on|off")
-        print("/as quest on|off")
-        print("/as boss on|off")
-        print("/as pvp on|off")
-        print("/as timer on|off")
+        print("ScreenshotJourney commands:")
+        print("/sj levelup on|off")
+        print("/sj quest on|off")
+        print("/sj boss on|off")
+        print("/sj pvp on|off")
+        print("/sj timer on|off")
         return
     end
 
@@ -80,8 +87,8 @@ SlashCmdList["AUTOSCREENSHOT"] = function(msg)
     }
 
     if keyMap[cmd] then
-        AutoScreenshot_Config[keyMap[cmd]] = (arg == "on")
-        print(cmd .. " screenshots " .. (AutoScreenshot_Config[keyMap[cmd]] and "enabled" or "disabled"))
+        ScreenshotJourney_Config[keyMap[cmd]] = (arg == "on")
+        print(cmd .. " screenshots " .. (ScreenshotJourney_Config[keyMap[cmd]] and "enabled" or "disabled"))
     else
         print("Unknown command.")
     end
