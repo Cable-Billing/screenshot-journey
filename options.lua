@@ -19,19 +19,19 @@ local function CreateCheckbox(name, label, tooltip, settingKey)
     return cb
 end
 
-local cbLevelUp = CreateCheckbox("SJ_CB_LevelUp", "Level Up", "Take screenshot when leveling up", "levelUp")
+local cbLevelUp = CreateCheckbox("SJ_CB_LevelUp", "Level Up", "Take screenshot you level up", "levelUp")
 cbLevelUp:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
 
 local cbDeath = CreateCheckbox("SJ_CB_Death", "Death", "Take screenshot when you die", "death")
 cbDeath:SetPoint("TOPLEFT", cbLevelUp, "BOTTOMLEFT", 0, -8)
 
-local cbQuestComplete = CreateCheckbox("SJ_CB_QuestComplete", "Quest Complete", "Take screenshot when completing a quest", "questComplete")
+local cbQuestComplete = CreateCheckbox("SJ_CB_QuestComplete", "Quest Complete", "Take screenshot when you complete a quest", "questComplete")
 cbQuestComplete:SetPoint("TOPLEFT", cbDeath, "BOTTOMLEFT", 0, -8)
 
-local cbBossKill = CreateCheckbox("SJ_CB_BossKill", "Boss Kill", "Take screenshot when killing an instance boss", "bossKill")
+local cbBossKill = CreateCheckbox("SJ_CB_BossKill", "Boss Kill", "Take screenshot when you or your party kills an instance boss", "bossKill")
 cbBossKill:SetPoint("TOPLEFT", cbQuestComplete, "BOTTOMLEFT", 0, -8)
 
-local cbPvPKill = CreateCheckbox("SJ_CB_PvPKill", "PvP Kill", "Take screenshot when killing another player", "pvpKill")
+local cbPvPKill = CreateCheckbox("SJ_CB_PvPKill", "PvP Kill", "Take screenshot when you or your party kills another player", "pvpKill")
 cbPvPKill:SetPoint("TOPLEFT", cbBossKill, "BOTTOMLEFT", 0, -8)
 
 local cbPeriodic = CreateCheckbox("SJ_CB_Periodic", "Timed Screenshot", "Take screenshot every set periodic interval", "periodic")
