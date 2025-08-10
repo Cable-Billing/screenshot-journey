@@ -19,27 +19,29 @@ local function CreateCheckbox(name, label, tooltip, settingKey)
     return cb
 end
 
-
 local cbLevelUp = CreateCheckbox("SJ_CB_LevelUp", "Level Up", "Take screenshot when leveling up", "levelUp")
 cbLevelUp:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
 
-local cbQuest = CreateCheckbox("SJ_CB_Quest", "Quest Complete", "Take screenshot when completing a quest", "questComplete")
-cbQuest:SetPoint("TOPLEFT", cbLevelUp, "BOTTOMLEFT", 0, -8)
+local cbDeath = CreateCheckbox("SJ_CB_Death", "Death", "Take screenshot when you die", "death")
+cbDeath:SetPoint("TOPLEFT", cbLevelUp, "BOTTOMLEFT", 0, -8)
 
-local cbBoss = CreateCheckbox("SJ_CB_Boss", "Boss Kill", "Take screenshot when killing an instance boss", "bossKill")
-cbBoss:SetPoint("TOPLEFT", cbQuest, "BOTTOMLEFT", 0, -8)
+local cbQuestComplete = CreateCheckbox("SJ_CB_QuestComplete", "Quest Complete", "Take screenshot when completing a quest", "questComplete")
+cbQuestComplete:SetPoint("TOPLEFT", cbDeath, "BOTTOMLEFT", 0, -8)
 
-local cbPvP = CreateCheckbox("SJ_CB_PvP", "PvP Kill", "Take screenshot when killing another player", "pvpKill")
-cbPvP:SetPoint("TOPLEFT", cbBoss, "BOTTOMLEFT", 0, -8)
+local cbBossKill = CreateCheckbox("SJ_CB_BossKill", "Boss Kill", "Take screenshot when killing an instance boss", "bossKill")
+cbBossKill:SetPoint("TOPLEFT", cbQuestComplete, "BOTTOMLEFT", 0, -8)
 
-local cbTimer = CreateCheckbox("SJ_CB_Timer", "Timed Screenshot", "Take screenshot every set periodic interval", "periodic")
-cbTimer:SetPoint("TOPLEFT", cbPvP, "BOTTOMLEFT", 0, -8)
+local cbPvPKill = CreateCheckbox("SJ_CB_PvPKill", "PvP Kill", "Take screenshot when killing another player", "pvpKill")
+cbPvPKill:SetPoint("TOPLEFT", cbBossKill, "BOTTOMLEFT", 0, -8)
+
+local cbPeriodic = CreateCheckbox("SJ_CB_Periodic", "Timed Screenshot", "Take screenshot every set periodic interval", "periodic")
+cbPeriodic:SetPoint("TOPLEFT", cbPvPKill, "BOTTOMLEFT", 0, -8)
 
 local slider = CreateFrame("Slider", "SJ_TimerSlider", panel, "OptionsSliderTemplate")
 slider:SetWidth(200)
 slider:SetHeight(16)
 slider:SetOrientation('HORIZONTAL')
-slider:SetPoint("TOPLEFT", cbTimer, "BOTTOMLEFT", 0, -24)
+slider:SetPoint("TOPLEFT", cbPeriodic, "BOTTOMLEFT", 0, -24)
 slider:SetMinMaxValues(60, 1800) -- 1 min to 30 min
 slider:SetValueStep(60)
 _G[slider:GetName() .. 'Low']:SetText('1m')
@@ -52,10 +54,11 @@ end)
 
 panel.refresh = function()
     cbLevelUp:SetChecked(ScreenshotJourney_Config.levelUp)
-    cbQuest:SetChecked(ScreenshotJourney_Config.questComplete)
-    cbBoss:SetChecked(ScreenshotJourney_Config.bossKill)
-    cbPvP:SetChecked(ScreenshotJourney_Config.pvpKill)
-    cbTimer:SetChecked(ScreenshotJourney_Config.periodic)
+    cbDeath:SetChecked(ScreenshotJourney_Config.death)
+    cbQuestComplete:SetChecked(ScreenshotJourney_Config.questComplete)
+    cbBossKill:SetChecked(ScreenshotJourney_Config.bossKill)
+    cbPvPKill:SetChecked(ScreenshotJourney_Config.pvpKill)
+    cbPeriodic:SetChecked(ScreenshotJourney_Config.periodic)
     slider:SetValue(ScreenshotJourney_Config.periodicInterval)
 end
 

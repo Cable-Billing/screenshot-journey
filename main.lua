@@ -1,5 +1,6 @@
 ScreenshotJourney_Config = ScreenshotJourney_Config or {
     levelUp = true,
+    death = true,
     questComplete = true,
     bossKill = true,
     pvpKill = true,
@@ -22,6 +23,8 @@ end
 
 f:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_LEVEL_UP" and ScreenshotJourney_Config.levelUp then
+        QueueScreenshot()
+    elseif event == "PLAYER_DEAD" and ScreenshotJourney_Config.death then
         QueueScreenshot()
     elseif event == "QUEST_TURNED_IN" and ScreenshotJourney_Config.questComplete then
         QueueScreenshot()
@@ -51,6 +54,7 @@ f:SetScript("OnEvent", function(self, event, ...)
 end)
 
 f:RegisterEvent("PLAYER_LEVEL_UP")
+f:RegisterEvent("PLAYER_DEAD")
 f:RegisterEvent("QUEST_TURNED_IN")
 f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 
