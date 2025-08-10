@@ -53,6 +53,22 @@ local cbLootOrange = CreateCheckbox("SJ_CB_LootOrange", "Orange (Legendary)", "T
 cbLootOrange:SetPoint("TOPLEFT", cbLootPurple, "BOTTOMLEFT", 0, -4)
 _G[cbLootOrange:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[5].hex .. "Orange (Legendary)|r")
 
+-- Overrides the created in CreateCheckbox, that it why it needs to set the value in the config as well
+cbLootRoll:SetScript("OnClick", function(self)
+    ScreenshotJourney_Config.lootRoll = self:GetChecked()
+    if self:GetChecked() then
+        cbLootGreen:Enable()
+        cbLootBlue:Enable()
+        cbLootPurple:Enable()
+        cbLootOrange:Enable()
+    else
+        cbLootGreen:Disable()
+        cbLootBlue:Disable()
+        cbLootPurple:Disable()
+        cbLootOrange:Disable()
+    end
+end)
+
 local cbPvPKill = CreateCheckbox("SJ_CB_PvPKill", "PvP Kill", "Take screenshot when you or your party kills another player", "pvpKill")
 cbPvPKill:SetPoint("TOPLEFT", cbLootOrange, "BOTTOMLEFT", -20, -8)
 
@@ -105,6 +121,18 @@ panel.refresh = function()
     cbLootOrange:SetChecked(ScreenshotJourney_Config.lootRollOrange)
     cbPvPKill:SetChecked(ScreenshotJourney_Config.pvpKill)
     cbPeriodic:SetChecked(ScreenshotJourney_Config.periodic)
+
+    if ScreenshotJourney_Config.lootRoll then
+        cbLootGreen:Enable()
+        cbLootBlue:Enable()
+        cbLootPurple:Enable()
+        cbLootOrange:Enable()
+    else
+        cbLootGreen:Disable()
+        cbLootBlue:Disable()
+        cbLootPurple:Disable()
+        cbLootOrange:Disable()
+    end
 end
 
 InterfaceOptions_AddCategory(panel)
