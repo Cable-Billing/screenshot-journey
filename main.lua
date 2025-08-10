@@ -1,31 +1,15 @@
-local f = CreateFrame("Frame")
-
--- Default config
-local defaults = {
-    enableLevelUp = true,
-    enableQuest = true,
-    enableBoss = true,
-    enablePvP = true,
-    enableTimer = true,
-    timerInterval = 300, -- seconds
+ScreenshotJourney_Config = ScreenshotJourney_Config or {
+    killBoss = true,
+    questComplete = true,
+    pvpKill = true,
+    levelUp = true,
+    periodic = true,
+    periodicInterval = 300,
 }
 
--- Init config
-local function InitConfig()
-    if not ScreenshotJourney_Config then
-        ScreenshotJourney_Config = {}
-    end
-    for k, v in pairs(defaults) do
-        if ScreenshotJourney_Config[k] == nil then
-            ScreenshotJourney_Config[k] = v
-        end
-    end
-end
-
--- Timer tracking
+local f = CreateFrame("Frame")
 local elapsedSinceLast = 0
 
--- Event handler
 f:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_LEVEL_UP" and ScreenshotJourney_Config.enableLevelUp then
         Screenshot()
@@ -38,19 +22,15 @@ f:SetScript("OnEvent", function(self, event, ...)
         if subEvent == "PARTY_KILL" and bit.band(destFlags, COMBATLOG_OBJECT_TYPE_PLAYER) > 0 then
             Screenshot()
         end
-    elseif event == "PLAYER_LOGIN" then
-        InitConfig()
     end
 end)
 
--- Register events
 f:RegisterEvent("PLAYER_LOGIN")
 f:RegisterEvent("PLAYER_LEVEL_UP")
 f:RegisterEvent("QUEST_TURNED_IN")
 f:RegisterEvent("BOSS_KILL")
 f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 
--- OnUpdate for periodic screenshots
 f:SetScript("OnUpdate", function(self, elapsed)
     if ScreenshotJourney_Config.enableTimer then
         elapsedSinceLast = elapsedSinceLast + elapsed
