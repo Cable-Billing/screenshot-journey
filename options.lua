@@ -1,13 +1,10 @@
--- Create the main panel
 local panel = CreateFrame("Frame", "ScreenshotJourneyOptionsPanel", UIParent)
 panel.name = "Screenshot Journey"
 
--- Title text
 local title = panel:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 title:SetPoint("TOPLEFT", 16, -16)
 title:SetText("Screenshot Journey Settings")
 
--- Function to make a checkbox
 local function CreateCheckbox(name, label, tooltip, settingKey)
     local cb = CreateFrame("CheckButton", name, panel, "InterfaceOptionsCheckButtonTemplate")
     _G[cb:GetName() .. "Text"]:SetText(label) -- Wrath-style label
@@ -23,7 +20,6 @@ local function CreateCheckbox(name, label, tooltip, settingKey)
 end
 
 
--- Create checkboxes
 local cbLevelUp = CreateCheckbox("SJ_CB_LevelUp", "Level Up", "Take screenshot when leveling up.", "enableLevelUp")
 cbLevelUp:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
 
@@ -39,7 +35,6 @@ cbPvP:SetPoint("TOPLEFT", cbBoss, "BOTTOMLEFT", 0, -8)
 local cbTimer = CreateCheckbox("SJ_CB_Timer", "Timed Screenshot", "Take screenshot every set interval.", "enableTimer")
 cbTimer:SetPoint("TOPLEFT", cbPvP, "BOTTOMLEFT", 0, -8)
 
--- Slider for timer interval
 local slider = CreateFrame("Slider", "SJ_TimerSlider", panel, "OptionsSliderTemplate")
 slider:SetWidth(200)
 slider:SetHeight(16)
@@ -55,7 +50,6 @@ slider:SetScript("OnValueChanged", function(self, value)
     ScreenshotJourney_Config.timerInterval = value
 end)
 
--- Refresh function (called when the options panel is opened)
 panel.refresh = function()
     cbLevelUp:SetChecked(ScreenshotJourney_Config.enableLevelUp)
     cbQuest:SetChecked(ScreenshotJourney_Config.enableQuest)
@@ -65,5 +59,4 @@ panel.refresh = function()
     slider:SetValue(ScreenshotJourney_Config.timerInterval)
 end
 
--- Add panel to Interface Options
 InterfaceOptions_AddCategory(panel)
