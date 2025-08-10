@@ -1,16 +1,34 @@
 local panel = CreateFrame("Frame", "ScreenshotJourneyOptionsPanel", UIParent)
 panel.name = "Screenshot Journey"
 
-local title = panel:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+local scrollFrame = CreateFrame("ScrollFrame", "ScreenshotJourneyScrollFrame", panel, "UIPanelScrollFrameTemplate")
+scrollFrame:SetPoint("TOPLEFT", 0, -8)
+scrollFrame:SetPoint("BOTTOMRIGHT", -28, 8)
+
+local content = CreateFrame("Frame", "ScreenshotJourneyScrollContent", scrollFrame)
+content:SetSize(1, 1) -- will auto expand with contents
+scrollFrame:SetScrollChild(content)
+
+local title = content:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 title:SetPoint("TOPLEFT", 16, -16)
 title:SetText("Screenshot Journey Settings")
 
 local function CreateCheckbox(name, label, tooltip, settingKey)
-    local cb = CreateFrame("CheckButton", name, panel, "InterfaceOptionsCheckButtonTemplate")
-    _G[cb:GetName() .. "Text"]:SetText(label) -- Wrath-style label
+    local cb = CreateFrame("CheckButton", name, content, "InterfaceOptionsCheckButtonTemplate")
+    _G[cb:GetName() .. "Text"]:SetText(label)
 
-    cb.tooltipText = label
-    cb.tooltipRequirement = tooltip
+    cb:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        GameTooltip:SetText(label)
+        if tooltip then
+            GameTooltip:AddLine(tooltip, 1, 1, 1, true)
+        end
+        GameTooltip:Show()
+    end)
+
+    cb:SetScript("OnLeave", function(self)
+        GameTooltip:Hide()
+    end)
 
     cb:SetScript("OnClick", function(self)
         ScreenshotJourney_Config[settingKey] = self:GetChecked()
@@ -64,7 +82,7 @@ cbLootRoll:SetScript("OnClick", function(self)
     else
         cbLootRollGreen:Disable()
         cbLootRollBlue:Disable()
-        cbLootPurple:Disable()
+        cbLootRollPurple:Disable()
         cbLootRollOrange:Disable()
     end
 end)
@@ -109,7 +127,7 @@ cbPvPKill:SetPoint("TOPLEFT", cbLootReceivedOrange, "BOTTOMLEFT", -20, -8)
 local cbPeriodic = CreateCheckbox("SJ_CB_Periodic", "Timed Screenshot", "Take screenshot every set periodic interval", "periodic")
 cbPeriodic:SetPoint("TOPLEFT", cbPvPKill, "BOTTOMLEFT", 0, -8)
 
-local txtInterval = CreateFrame("EditBox", "SJ_TXT_Interval", panel, "InputBoxTemplate")
+local txtInterval = CreateFrame("EditBox", "SJ_TXT_Interval", content, "InputBoxTemplate")
 txtInterval:SetSize(60, 20)
 txtInterval:SetPoint("LEFT", cbPeriodic, "RIGHT", 124, 0)
 txtInterval:SetAutoFocus(false)
@@ -127,7 +145,7 @@ txtInterval:SetScript("OnLeave", function(self)
     GameTooltip:Hide()
 end)
 
-local lblInterval = panel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+local lblInterval = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 lblInterval:SetPoint("LEFT", txtInterval, "RIGHT", 4, 0)
 lblInterval:SetText("Interval (seconds)")
 
@@ -193,7 +211,7 @@ panel.refresh = function()
     else
         cbLootRollGreen:Disable()
         cbLootRollBlue:Disable()
-        cbLootPurple:Disable()
+        cbLootRollPurple:Disable()
         cbLootRollOrange:Disable()
     end
 
