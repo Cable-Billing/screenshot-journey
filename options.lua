@@ -20,19 +20,19 @@ local function CreateCheckbox(name, label, tooltip, settingKey)
 end
 
 
-local cbLevelUp = CreateCheckbox("SJ_CB_LevelUp", "Level Up", "Take screenshot when leveling up.", "enableLevelUp")
+local cbLevelUp = CreateCheckbox("SJ_CB_LevelUp", "Level Up", "Take screenshot when leveling up", "levelUp")
 cbLevelUp:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
 
-local cbQuest = CreateCheckbox("SJ_CB_Quest", "Quest Complete", "Take screenshot when completing a quest.", "enableQuest")
+local cbQuest = CreateCheckbox("SJ_CB_Quest", "Quest Complete", "Take screenshot when completing a quest", "questComplete")
 cbQuest:SetPoint("TOPLEFT", cbLevelUp, "BOTTOMLEFT", 0, -8)
 
-local cbBoss = CreateCheckbox("SJ_CB_Boss", "Boss Kill", "Take screenshot when killing an instance boss.", "enableBoss")
+local cbBoss = CreateCheckbox("SJ_CB_Boss", "Boss Kill", "Take screenshot when killing an instance boss", "bossKill")
 cbBoss:SetPoint("TOPLEFT", cbQuest, "BOTTOMLEFT", 0, -8)
 
-local cbPvP = CreateCheckbox("SJ_CB_PvP", "PvP Kill", "Take screenshot when killing another player.", "enablePvP")
+local cbPvP = CreateCheckbox("SJ_CB_PvP", "PvP Kill", "Take screenshot when killing another player", "pvpKill")
 cbPvP:SetPoint("TOPLEFT", cbBoss, "BOTTOMLEFT", 0, -8)
 
-local cbTimer = CreateCheckbox("SJ_CB_Timer", "Timed Screenshot", "Take screenshot every set interval.", "enableTimer")
+local cbTimer = CreateCheckbox("SJ_CB_Timer", "Timed Screenshot", "Take screenshot every set periodic interval", "periodic")
 cbTimer:SetPoint("TOPLEFT", cbPvP, "BOTTOMLEFT", 0, -8)
 
 local slider = CreateFrame("Slider", "SJ_TimerSlider", panel, "OptionsSliderTemplate")
@@ -47,16 +47,16 @@ _G[slider:GetName() .. 'High']:SetText('30m')
 _G[slider:GetName() .. 'Text']:SetText("Timer Interval (seconds)")
 
 slider:SetScript("OnValueChanged", function(self, value)
-    ScreenshotJourney_Config.timerInterval = value
+    ScreenshotJourney_Config.periodicInterval = value
 end)
 
 panel.refresh = function()
-    cbLevelUp:SetChecked(ScreenshotJourney_Config.enableLevelUp)
-    cbQuest:SetChecked(ScreenshotJourney_Config.enableQuest)
-    cbBoss:SetChecked(ScreenshotJourney_Config.enableBoss)
-    cbPvP:SetChecked(ScreenshotJourney_Config.enablePvP)
-    cbTimer:SetChecked(ScreenshotJourney_Config.enableTimer)
-    slider:SetValue(ScreenshotJourney_Config.timerInterval)
+    cbLevelUp:SetChecked(ScreenshotJourney_Config.levelUp)
+    cbQuest:SetChecked(ScreenshotJourney_Config.questComplete)
+    cbBoss:SetChecked(ScreenshotJourney_Config.bossKill)
+    cbPvP:SetChecked(ScreenshotJourney_Config.pvpKill)
+    cbTimer:SetChecked(ScreenshotJourney_Config.periodic)
+    slider:SetValue(ScreenshotJourney_Config.periodicInterval)
 end
 
 InterfaceOptions_AddCategory(panel)
