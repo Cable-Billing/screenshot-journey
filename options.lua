@@ -135,12 +135,12 @@ end)
 local cbPvPKill = CreateCheckbox("SJ_CB_PvPKill", "PvP Kill", "Take screenshot when you or your party kills another player", "pvpKill")
 cbPvPKill:SetPoint("TOPLEFT", cbLootReceivedOrange, "BOTTOMLEFT", -20, -8)
 
-local cbPeriodic = CreateCheckbox("SJ_CB_Periodic", "Timed Screenshot", "Take screenshot every set periodic interval", "periodic")
+local cbPeriodic = CreateCheckbox("SJ_CB_Periodic", "Periodic Screenshot", "Take screenshot every set periodic interval", "periodic")
 cbPeriodic:SetPoint("TOPLEFT", cbPvPKill, "BOTTOMLEFT", 0, -8)
 
 local txtInterval = CreateFrame("EditBox", "SJ_TXT_Interval", content, "InputBoxTemplate")
 txtInterval:SetSize(60, 20)
-txtInterval:SetPoint("LEFT", cbPeriodic, "RIGHT", 124, 0)
+txtInterval:SetPoint("LEFT", cbPeriodic, "RIGHT", 132, 0)
 txtInterval:SetAutoFocus(false)
 txtInterval:SetNumeric(true)
 
