@@ -1,11 +1,11 @@
 -- Create the main panel
 local panel = CreateFrame("Frame", "ScreenshotJourneyOptionsPanel", UIParent)
-panel.name = "ScreenshotJourney"
+panel.name = "Screenshot Journey"
 
 -- Title text
 local title = panel:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 title:SetPoint("TOPLEFT", 16, -16)
-title:SetText("ScreenshotJourney Settings")
+title:SetText("Screenshot Journey Settings")
 
 -- Function to make a checkbox
 local function CreateCheckbox(name, label, tooltip, settingKey)
