@@ -30,8 +30,24 @@ f:SetScript("OnEvent", function(self, event, ...)
     elseif event == "COMBAT_LOG_EVENT_UNFILTERED" and ScreenshotJourney_Config.pvpKill then
         local timestamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = ...
 
-        if subEvent == "PARTY_KILL" and destGUID and bit.band(destGUID, COMBATLOG_OBJECT_TYPE_PLAYER) > 0 then
-            QueueScreenshot()
+        if subEvent == "PARTY_KILL" and destGUID then
+            -- print("timestamp " .. tostring(timestamp))
+            -- print("subEvent " .. tostring(subEvent))
+            -- print("hideCaster " .. tostring(hideCaster))
+            -- print("sourceGUID " .. tostring(sourceGUID))
+            -- print("sourceName " .. tostring(sourceName))
+            -- print("sourceFlags " .. tostring(sourceFlags))
+            -- print("sourceRaidFlags " .. tostring(sourceRaidFlags))
+            -- print("destGUID " .. tostring(destGUID))
+            -- print("destName " .. tostring(destName))
+            -- print("destFlags " .. tostring(destFlags))
+            -- print("destRaidFlags " .. tostring(destRaidFlags))
+            if bit.band(destGUID, COMBATLOG_OBJECT_TYPE_PLAYER) > 0 then
+                QueueScreenshot()
+            elseif bit.band(destGUID, COMBATLOG_OBJECT_TYPE_NPC) > 0 then
+                -- print("killed npc")
+                -- QueueScreenshot()
+            end
         end
     end
 end)
