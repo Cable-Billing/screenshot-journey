@@ -5,6 +5,17 @@ local scrollFrame = CreateFrame("ScrollFrame", "ScreenshotJourneyScrollFrame", p
 scrollFrame:SetPoint("TOPLEFT", 0, -8)
 scrollFrame:SetPoint("BOTTOMRIGHT", -28, 8)
 
+local scrollStep = 25 -- pixels to scroll per step, reduce this to scroll less each time
+
+scrollFrame:SetScript("OnMouseWheel", function(self, delta)
+    local curr = self:GetVerticalScroll()
+    local max = self:GetVerticalScrollRange()
+    local newScroll = curr - delta * scrollStep
+    if newScroll < 0 then newScroll = 0 end
+    if newScroll > max then newScroll = max end
+    self:SetVerticalScroll(newScroll)
+end)
+
 local content = CreateFrame("Frame", "ScreenshotJourneyScrollContent", scrollFrame)
 content:SetSize(1, 1) -- will auto expand with contents
 scrollFrame:SetScrollChild(content)
