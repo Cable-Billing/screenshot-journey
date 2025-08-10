@@ -1,7 +1,8 @@
 ## Interface: 30300
-## Title: Screenshot Journey
-## Notes: Takes screenshots when performing tasks during play to track your journey
-## Author: KrispyCable
+## Title: ScreenshotJourney
+## Notes: Takes screenshots on certain events during your journey
+## Author: Cable-Billing
 ## Version: 1.0
 ## SavedVariables: ScreenshotJourney_Config
+
 main.lua
