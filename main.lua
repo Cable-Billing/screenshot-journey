@@ -2,11 +2,11 @@ ScreenshotJourney_Config = ScreenshotJourney_Config or {
     levelUp = true,
     death = true,
     achievementEarned = true,
-    questComplete = true,
+    questComplete = false,
     bossKill = true,
     pvpKill = true,
-    periodic = true,
-    periodicInterval = 300,
+    periodic = false,
+    periodicInterval = 1800,
 }
 
 local f = CreateFrame("Frame")
