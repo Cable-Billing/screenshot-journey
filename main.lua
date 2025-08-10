@@ -1,95 +1,81 @@
-local f = CreateFrame("Frame")
-
--- Default config
-local defaults = {
-    enableLevelUp = true,
-    enableQuest = true,
-    enableBoss = true,
-    enablePvP = true,
-    enableTimer = true,
-    timerInterval = 300, -- seconds
+-- ScreenshotJourney: main.lua
+-- Default configuration
+ScreenshotJourney_Config = ScreenshotJourney_Config or {
+    killBoss = true,
+    questComplete = true,
+    pvpKill = true,
+    levelUp = true,
+    periodic = true,
+    periodicInterval = 300, -- 5 minutes in seconds
 }
 
--- Init config
-local function InitConfig()
-    if not ScreenshotJourney_Config then
-        ScreenshotJourney_Config = {}
-    end
-    for k, v in pairs(defaults) do
-        if ScreenshotJourney_Config[k] == nil then
-            ScreenshotJourney_Config[k] = v
-        end
-    end
+local f = CreateFrame("Frame")
+local periodicTimer = 0
+
+-- Helper to take screenshot
+local function TakeScreenshot()
+    Screenshot()
 end
 
--- Timer tracking
-local elapsedSinceLast = 0
+-- Check if a unit is a boss
+local function IsBoss(unitGUID)
+    -- In 3.3.5a, boss units in instances often have "Creature" type with level -1 (??)
+    if UnitExists(unitGUID) then
+        local level = UnitLevel(unitGUID)
+        return (level == -1)
+    end
+    return false
+end
 
 -- Event handler
 f:SetScript("OnEvent", function(self, event, ...)
-    if event == "PLAYER_LEVEL_UP" and ScreenshotJourney_Config.enableLevelUp then
-        Screenshot()
-    elseif event == "QUEST_TURNED_IN" and ScreenshotJourney_Config.enableQuest then
-        Screenshot()
-    elseif event == "BOSS_KILL" and ScreenshotJourney_Config.enableBoss then
-        Screenshot()
-    elseif event == "COMBAT_LOG_EVENT_UNFILTERED" and ScreenshotJourney_Config.enablePvP then
-        local _, subEvent, _, _, _, _, _, destGUID, destName, destFlags = CombatLogGetCurrentEventInfo()
-        if subEvent == "PARTY_KILL" and bit.band(destFlags, COMBATLOG_OBJECT_TYPE_PLAYER) > 0 then
-            Screenshot()
+    if event == "COMBAT_LOG_EVENT_UNFILTERED" then
+        local timestamp, subevent, hideCaster,
+              sourceGUID, sourceName, sourceFlags,
+              destGUID, destName, destFlags = ...
+
+        -- Boss kill detection
+        if ScreenshotJourney_Config.killBoss and subevent == "UNIT_DIED" then
+            -- We can't directly check by GUID in 3.3.5a without a table of bosses,
+            -- so we look for "??" units in instance combat or known boss names.
+            -- For now, very basic check:
+            if bit.band(destFlags, COMBATLOG_OBJECT_REACTION_HOSTILE) > 0 and
+               bit.band(destFlags, COMBATLOG_OBJECT_CONTROL_NPC) > 0 then
+                TakeScreenshot()
+            end
         end
-    elseif event == "PLAYER_LOGIN" then
-        InitConfig()
+
+        -- PvP kill detection
+        if ScreenshotJourney_Config.pvpKill and subevent == "PARTY_KILL" then
+            if bit.band(destFlags, COMBATLOG_OBJECT_TYPE_PLAYER) > 0 then
+                TakeScreenshot()
+            end
+        end
+
+    elseif event == "PLAYER_LEVEL_UP" then
+        if ScreenshotJourney_Config.levelUp then
+            TakeScreenshot()
+        end
+
+    elseif event == "QUEST_TURNED_IN" then
+        if ScreenshotJourney_Config.questComplete then
+            TakeScreenshot()
+        end
+    end
+end)
+
+-- Periodic screenshot logic
+f:SetScript("OnUpdate", function(self, elapsed)
+    if ScreenshotJourney_Config.periodic then
+        periodicTimer = periodicTimer + elapsed
+        if periodicTimer >= ScreenshotJourney_Config.periodicInterval then
+            periodicTimer = 0
+            TakeScreenshot()
+        end
     end
 end)
 
 -- Register events
-f:RegisterEvent("PLAYER_LOGIN")
+f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 f:RegisterEvent("PLAYER_LEVEL_UP")
 f:RegisterEvent("QUEST_TURNED_IN")
-f:RegisterEvent("BOSS_KILL")
-f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-
--- OnUpdate for periodic screenshots
-f:SetScript("OnUpdate", function(self, elapsed)
-    if ScreenshotJourney_Config.enableTimer then
-        elapsedSinceLast = elapsedSinceLast + elapsed
-        if elapsedSinceLast >= ScreenshotJourney_Config.timerInterval then
-            elapsedSinceLast = 0
-            Screenshot()
-        end
-    end
-end)
-
--- Slash commands
-SLASH_SCREENSHOTJOURNEY1 = "/sj"
-SlashCmdList["SCREENSHOTJOURNEY"] = function(msg)
-    local cmd, arg = msg:match("^(%S+)%s*(%S*)$")
-    if not cmd or cmd == "" then
-        print("ScreenshotJourney commands:")
-        print("/sj levelup on|off")
-        print("/sj quest on|off")
-        print("/sj boss on|off")
-        print("/sj pvp on|off")
-        print("/sj timer on|off")
-        return
-    end
-
-    cmd = cmd:lower()
-    arg = arg:lower()
-
-    local keyMap = {
-        levelup = "enableLevelUp",
-        quest = "enableQuest",
-        boss = "enableBoss",
-        pvp = "enablePvP",
-        timer = "enableTimer",
-    }
-
-    if keyMap[cmd] then
-        ScreenshotJourney_Config[keyMap[cmd]] = (arg == "on")
-        print(cmd .. " screenshots " .. (ScreenshotJourney_Config[keyMap[cmd]] and "enabled" or "disabled"))
-    else
-        print("Unknown command.")
-    end
-end
