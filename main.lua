@@ -5,6 +5,10 @@ ScreenshotJourney_Config = ScreenshotJourney_Config or {
     questComplete = false,
     bossKill = true,
     lootRoll = true,
+    lootRollGreen = false,
+    lootRollBlue = true,
+    lootRollPurple = true,
+    lootRollOrange = true,
     pvpKill = true,
     periodic = false,
     periodicInterval = 1800,
@@ -25,11 +29,27 @@ f:SetScript("OnEvent", function(self, event, ...)
     elseif event == "PLAYER_DEAD" and ScreenshotJourney_Config.death then
         TakeScreenshotDelayed(0.1)
     elseif event == "ACHIEVEMENT_EARNED" and ScreenshotJourney_Config.achievementEarned then
-        TakeScreenshotDelayed(1.0)
+        TakeScreenshotDelayed(1.0) -- Delay so achievement is clearly visible
     elseif event == "QUEST_TURNED_IN" and ScreenshotJourney_Config.questComplete then
         TakeScreenshotDelayed(0.1)
     elseif event == "START_LOOT_ROLL" and ScreenshotJourney_Config.lootRoll then
-        TakeScreenshotDelayed(0.1)
+        local lootSlot = ...
+        local texture, itemName, itemCount, quality = GetLootRollItemInfo(lootSlot)
+
+        local shouldTake = false
+        if quality == 2 and ScreenshotJourney_Config.lootRollGreen then
+            shouldTake = true
+        elseif quality == 3 and ScreenshotJourney_Config.lootRollBlue then
+            shouldTake = true
+        elseif quality == 4 and ScreenshotJourney_Config.lootRollPurple then
+            shouldTake = true
+        elseif quality == 5 and ScreenshotJourney_Config.lootRollOrange then
+            shouldTake = true
+        end
+
+        if shouldTake then
+            TakeScreenshotDelayed(0.1)
+        end
     elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
         local timestamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = ...
 

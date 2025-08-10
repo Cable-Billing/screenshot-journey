@@ -37,8 +37,24 @@ cbBossKill:SetPoint("TOPLEFT", cbQuestComplete, "BOTTOMLEFT", 0, -8)
 local cbLootRoll = CreateCheckbox("SJ_CB_LootRoll", "Loot Roll", "Take screenshot when loot is to be rolled on", "lootRoll")
 cbLootRoll:SetPoint("TOPLEFT", cbBossKill, "BOTTOMLEFT", 0, -8)
 
+local cbLootGreen = CreateCheckbox("SJ_CB_LootGreen", "Green (Uncommon)", "Take screenshot on green (uncommon) loot rolls", "lootRollGreen")
+cbLootGreen:SetPoint("TOPLEFT", cbLootRoll, "BOTTOMLEFT", 20, -4)
+_G[cbLootGreen:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[2].hex .. "Green (Uncommon)|r")
+
+local cbLootBlue = CreateCheckbox("SJ_CB_LootBlue", "Blue (Rare)", "Take screenshot on blue (rare) loot rolls", "lootRollBlue")
+cbLootBlue:SetPoint("TOPLEFT", cbLootGreen, "BOTTOMLEFT", 0, -4)
+_G[cbLootBlue:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[3].hex .. "Blue (Rare)|r")
+
+local cbLootPurple = CreateCheckbox("SJ_CB_LootPurple", "Purple (Epic)", "Take screenshot on purple (epic) loot rolls", "lootRollPurple")
+cbLootPurple:SetPoint("TOPLEFT", cbLootBlue, "BOTTOMLEFT", 0, -4)
+_G[cbLootPurple:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[4].hex .. "Purple (Epic)|r")
+
+local cbLootOrange = CreateCheckbox("SJ_CB_LootOrange", "Orange (Legendary)", "Take screenshot on orange (legendary) loot rolls", "lootRollOrange")
+cbLootOrange:SetPoint("TOPLEFT", cbLootPurple, "BOTTOMLEFT", 0, -4)
+_G[cbLootOrange:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[5].hex .. "Orange (Legendary)|r")
+
 local cbPvPKill = CreateCheckbox("SJ_CB_PvPKill", "PvP Kill", "Take screenshot when you or your party kills another player", "pvpKill")
-cbPvPKill:SetPoint("TOPLEFT", cbLootRoll, "BOTTOMLEFT", 0, -8)
+cbPvPKill:SetPoint("TOPLEFT", cbLootOrange, "BOTTOMLEFT", -20, -8)
 
 local cbPeriodic = CreateCheckbox("SJ_CB_Periodic", "Timed Screenshot", "Take screenshot every set periodic interval", "periodic")
 cbPeriodic:SetPoint("TOPLEFT", cbPvPKill, "BOTTOMLEFT", 0, -8)
@@ -82,6 +98,11 @@ panel.refresh = function()
     cbAchievementEarned:SetChecked(ScreenshotJourney_Config.achievementEarned)
     cbQuestComplete:SetChecked(ScreenshotJourney_Config.questComplete)
     cbBossKill:SetChecked(ScreenshotJourney_Config.bossKill)
+    cbLootRoll:SetChecked(ScreenshotJourney_Config.lootRoll)
+    cbLootGreen:SetChecked(ScreenshotJourney_Config.lootRollGreen)
+    cbLootBlue:SetChecked(ScreenshotJourney_Config.lootRollBlue)
+    cbLootPurple:SetChecked(ScreenshotJourney_Config.lootRollPurple)
+    cbLootOrange:SetChecked(ScreenshotJourney_Config.lootRollOrange)
     cbPvPKill:SetChecked(ScreenshotJourney_Config.pvpKill)
     cbPeriodic:SetChecked(ScreenshotJourney_Config.periodic)
 end
