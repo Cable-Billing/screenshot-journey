@@ -9,6 +9,11 @@ ScreenshotJourney_Config = ScreenshotJourney_Config or {
     lootRollBlue = true,
     lootRollPurple = true,
     lootRollOrange = true,
+    lootReceived = true,
+    lootReceivedGreen = false,
+    lootReceivedBlue = true,
+    lootReceivedPurple = true,
+    lootReceivedOrange = true,
     pvpKill = true,
     periodic = false,
     periodicInterval = 1800,
@@ -55,6 +60,29 @@ f:SetScript("OnEvent", function(self, event, ...)
         if shouldTake then
             TakeScreenshotDelayed(0.1)
         end
+    elseif event == "CHAT_MSG_LOOT" and ScreenshotJourney_Config.lootReceived then
+        local msg = ...
+        if msg:find("You receive loot") or msg:find("You won") then
+            local itemLink = msg:match("|Hitem:%d+:%d+:%d+:%d+|h%[.-%]|h")
+            if itemLink then
+                local _, _, quality = GetItemInfo(itemLink)
+
+                local shouldTake = false
+                if quality == 2 and ScreenshotJourney_Config.lootReceivedGreen then
+                    shouldTake = true
+                elseif quality == 3 and ScreenshotJourney_Config.lootReceivedBlue then
+                    shouldTake = true
+                elseif quality == 4 and ScreenshotJourney_Config.lootReceivedPurple then
+                    shouldTake = true
+                elseif quality == 5 and ScreenshotJourney_Config.lootReceivedOrange then
+                    shouldTake = true
+                end
+
+                if shouldTake then
+                    TakeScreenshotDelayed(0.1)
+                end
+            end
+        end
     elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
         local timestamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = ...
 
@@ -86,6 +114,7 @@ f:RegisterEvent("ACHIEVEMENT_EARNED")
 f:RegisterEvent("QUEST_TURNED_IN")
 f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 f:RegisterEvent("START_LOOT_ROLL")
+f:RegisterEvent("CHAT_MSG_LOOT")
 
 f:SetScript("OnUpdate", function(self, elapsed)
     -- Periodic screenshot timer

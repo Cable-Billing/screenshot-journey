@@ -37,40 +37,74 @@ cbBossKill:SetPoint("TOPLEFT", cbQuestComplete, "BOTTOMLEFT", 0, -8)
 local cbLootRoll = CreateCheckbox("SJ_CB_LootRoll", "Loot Roll", "Take screenshot when loot is to be rolled on", "lootRoll")
 cbLootRoll:SetPoint("TOPLEFT", cbBossKill, "BOTTOMLEFT", 0, -8)
 
-local cbLootGreen = CreateCheckbox("SJ_CB_LootGreen", "Green (Uncommon)", "Take screenshot on green (uncommon) loot rolls", "lootRollGreen")
-cbLootGreen:SetPoint("TOPLEFT", cbLootRoll, "BOTTOMLEFT", 20, -4)
-_G[cbLootGreen:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[2].hex .. "Green (Uncommon)|r")
+local cbLootRollGreen = CreateCheckbox("SJ_CB_LootGreen", "Green (Uncommon)", "Take screenshot on green (uncommon) loot rolls", "lootRollGreen")
+cbLootRollGreen:SetPoint("TOPLEFT", cbLootRoll, "BOTTOMLEFT", 20, -4)
+_G[cbLootRollGreen:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[2].hex .. "Green (Uncommon)|r")
 
-local cbLootBlue = CreateCheckbox("SJ_CB_LootBlue", "Blue (Rare)", "Take screenshot on blue (rare) loot rolls", "lootRollBlue")
-cbLootBlue:SetPoint("TOPLEFT", cbLootGreen, "BOTTOMLEFT", 0, -4)
-_G[cbLootBlue:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[3].hex .. "Blue (Rare)|r")
+local cbLootRollBlue = CreateCheckbox("SJ_CB_LootBlue", "Blue (Rare)", "Take screenshot on blue (rare) loot rolls", "lootRollBlue")
+cbLootRollBlue:SetPoint("TOPLEFT", cbLootRollGreen, "BOTTOMLEFT", 0, -4)
+_G[cbLootRollBlue:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[3].hex .. "Blue (Rare)|r")
 
-local cbLootPurple = CreateCheckbox("SJ_CB_LootPurple", "Purple (Epic)", "Take screenshot on purple (epic) loot rolls", "lootRollPurple")
-cbLootPurple:SetPoint("TOPLEFT", cbLootBlue, "BOTTOMLEFT", 0, -4)
-_G[cbLootPurple:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[4].hex .. "Purple (Epic)|r")
+local cbLootRollPurple = CreateCheckbox("SJ_CB_LootPurple", "Purple (Epic)", "Take screenshot on purple (epic) loot rolls", "lootRollPurple")
+cbLootRollPurple:SetPoint("TOPLEFT", cbLootRollBlue, "BOTTOMLEFT", 0, -4)
+_G[cbLootRollPurple:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[4].hex .. "Purple (Epic)|r")
 
-local cbLootOrange = CreateCheckbox("SJ_CB_LootOrange", "Orange (Legendary)", "Take screenshot on orange (legendary) loot rolls", "lootRollOrange")
-cbLootOrange:SetPoint("TOPLEFT", cbLootPurple, "BOTTOMLEFT", 0, -4)
-_G[cbLootOrange:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[5].hex .. "Orange (Legendary)|r")
+local cbLootRollOrange = CreateCheckbox("SJ_CB_LootOrange", "Orange (Legendary)", "Take screenshot on orange (legendary) loot rolls", "lootRollOrange")
+cbLootRollOrange:SetPoint("TOPLEFT", cbLootRollPurple, "BOTTOMLEFT", 0, -4)
+_G[cbLootRollOrange:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[5].hex .. "Orange (Legendary)|r")
 
 -- Overrides the created in CreateCheckbox, that it why it needs to set the value in the config as well
 cbLootRoll:SetScript("OnClick", function(self)
     ScreenshotJourney_Config.lootRoll = self:GetChecked()
     if self:GetChecked() then
-        cbLootGreen:Enable()
-        cbLootBlue:Enable()
-        cbLootPurple:Enable()
-        cbLootOrange:Enable()
+        cbLootRollGreen:Enable()
+        cbLootRollBlue:Enable()
+        cbLootRollPurple:Enable()
+        cbLootRollOrange:Enable()
     else
-        cbLootGreen:Disable()
-        cbLootBlue:Disable()
+        cbLootRollGreen:Disable()
+        cbLootRollBlue:Disable()
         cbLootPurple:Disable()
-        cbLootOrange:Disable()
+        cbLootRollOrange:Disable()
+    end
+end)
+
+local cbLootReceived = CreateCheckbox("SJ_CB_LootReceived", "Loot Received", "Take screenshot when you receive loot from a roll", "lootReceived")
+cbLootReceived:SetPoint("TOPLEFT", cbLootRollOrange, "BOTTOMLEFT", -20, -8)
+
+local cbLootReceivedGreen = CreateCheckbox("SJ_CB_LootReceivedGreen", "Green (Uncommon)", "Take screenshot on green (uncommon) loot received", "lootReceivedGreen")
+cbLootReceivedGreen:SetPoint("TOPLEFT", cbLootReceived, "BOTTOMLEFT", 20, -4)
+_G[cbLootReceivedGreen:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[2].hex .. "Green (Uncommon)|r")
+
+local cbLootReceivedBlue = CreateCheckbox("SJ_CB_LootReceivedBlue", "Blue (Rare)", "Take screenshot on blue (rare) loot received", "lootReceivedBlue")
+cbLootReceivedBlue:SetPoint("TOPLEFT", cbLootReceivedGreen, "BOTTOMLEFT", 0, -4)
+_G[cbLootReceivedBlue:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[3].hex .. "Blue (Rare)|r")
+
+local cbLootReceivedPurple = CreateCheckbox("SJ_CB_LootReceivedPurple", "Purple (Epic)", "Take screenshot on purple (epic) loot received", "lootReceivedPurple")
+cbLootReceivedPurple:SetPoint("TOPLEFT", cbLootReceivedBlue, "BOTTOMLEFT", 0, -4)
+_G[cbLootReceivedPurple:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[4].hex .. "Purple (Epic)|r")
+
+local cbLootReceivedOrange = CreateCheckbox("SJ_CB_LootReceivedOrange", "Orange (Legendary)", "Take screenshot on orange (legendary) loot received", "lootReceivedOrange")
+cbLootReceivedOrange:SetPoint("TOPLEFT", cbLootReceivedPurple, "BOTTOMLEFT", 0, -4)
+_G[cbLootReceivedOrange:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[5].hex .. "Orange (Legendary)|r")
+
+cbLootReceived:SetScript("OnClick", function(self)
+    ScreenshotJourney_Config.lootReceived = self:GetChecked()
+    if self:GetChecked() then
+        cbLootReceivedGreen:Enable()
+        cbLootReceivedBlue:Enable()
+        cbLootReceivedPurple:Enable()
+        cbLootReceivedOrange:Enable()
+    else
+        cbLootReceivedGreen:Disable()
+        cbLootReceivedBlue:Disable()
+        cbLootReceivedPurple:Disable()
+        cbLootReceivedOrange:Disable()
     end
 end)
 
 local cbPvPKill = CreateCheckbox("SJ_CB_PvPKill", "PvP Kill", "Take screenshot when you or your party kills another player", "pvpKill")
-cbPvPKill:SetPoint("TOPLEFT", cbLootOrange, "BOTTOMLEFT", -20, -8)
+cbPvPKill:SetPoint("TOPLEFT", cbLootReceivedOrange, "BOTTOMLEFT", -20, -8)
 
 local cbPeriodic = CreateCheckbox("SJ_CB_Periodic", "Timed Screenshot", "Take screenshot every set periodic interval", "periodic")
 cbPeriodic:SetPoint("TOPLEFT", cbPvPKill, "BOTTOMLEFT", 0, -8)
@@ -139,23 +173,40 @@ panel.refresh = function()
     cbQuestComplete:SetChecked(ScreenshotJourney_Config.questComplete)
     cbBossKill:SetChecked(ScreenshotJourney_Config.bossKill)
     cbLootRoll:SetChecked(ScreenshotJourney_Config.lootRoll)
-    cbLootGreen:SetChecked(ScreenshotJourney_Config.lootRollGreen)
-    cbLootBlue:SetChecked(ScreenshotJourney_Config.lootRollBlue)
-    cbLootPurple:SetChecked(ScreenshotJourney_Config.lootRollPurple)
-    cbLootOrange:SetChecked(ScreenshotJourney_Config.lootRollOrange)
+    cbLootRollGreen:SetChecked(ScreenshotJourney_Config.lootRollGreen)
+    cbLootRollBlue:SetChecked(ScreenshotJourney_Config.lootRollBlue)
+    cbLootRollPurple:SetChecked(ScreenshotJourney_Config.lootRollPurple)
+    cbLootRollOrange:SetChecked(ScreenshotJourney_Config.lootRollOrange)
+    cbLootReceived:SetChecked(ScreenshotJourney_Config.lootReceived)
+    cbLootReceivedGreen:SetChecked(ScreenshotJourney_Config.lootReceivedGreen)
+    cbLootReceivedBlue:SetChecked(ScreenshotJourney_Config.lootReceivedBlue)
+    cbLootReceivedPurple:SetChecked(ScreenshotJourney_Config.lootReceivedPurple)
+    cbLootReceivedOrange:SetChecked(ScreenshotJourney_Config.lootReceivedOrange)
     cbPvPKill:SetChecked(ScreenshotJourney_Config.pvpKill)
     cbPeriodic:SetChecked(ScreenshotJourney_Config.periodic)
 
     if ScreenshotJourney_Config.lootRoll then
-        cbLootGreen:Enable()
-        cbLootBlue:Enable()
-        cbLootPurple:Enable()
-        cbLootOrange:Enable()
+        cbLootRollGreen:Enable()
+        cbLootRollBlue:Enable()
+        cbLootRollPurple:Enable()
+        cbLootRollOrange:Enable()
     else
-        cbLootGreen:Disable()
-        cbLootBlue:Disable()
+        cbLootRollGreen:Disable()
+        cbLootRollBlue:Disable()
         cbLootPurple:Disable()
-        cbLootOrange:Disable()
+        cbLootRollOrange:Disable()
+    end
+
+    if ScreenshotJourney_Config.lootReceived then
+        cbLootReceivedGreen:Enable()
+        cbLootReceivedBlue:Enable()
+        cbLootReceivedPurple:Enable()
+        cbLootReceivedOrange:Enable()
+    else
+        cbLootReceivedGreen:Disable()
+        cbLootReceivedBlue:Disable()
+        cbLootReceivedPurple:Disable()
+        cbLootReceivedOrange:Disable()
     end
 
     if ScreenshotJourney_Config.periodic then
