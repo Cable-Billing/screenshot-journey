@@ -75,15 +75,27 @@ cbPvPKill:SetPoint("TOPLEFT", cbLootOrange, "BOTTOMLEFT", -20, -8)
 local cbPeriodic = CreateCheckbox("SJ_CB_Periodic", "Timed Screenshot", "Take screenshot every set periodic interval", "periodic")
 cbPeriodic:SetPoint("TOPLEFT", cbPvPKill, "BOTTOMLEFT", 0, -8)
 
-local lblInterval = panel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-lblInterval:SetPoint("LEFT", cbPeriodic, "RIGHT", 116, 0)
-lblInterval:SetText("Interval (seconds)")
-
 local txtInterval = CreateFrame("EditBox", "SJ_TXT_Interval", panel, "InputBoxTemplate")
 txtInterval:SetSize(60, 20)
-txtInterval:SetPoint("LEFT", lblInterval, "RIGHT", 8, 0)
+txtInterval:SetPoint("LEFT", cbPeriodic, "RIGHT", 124, 0)
 txtInterval:SetAutoFocus(false)
 txtInterval:SetNumeric(true)
+
+txtInterval:SetScript("OnEnter", function(self)
+    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+    GameTooltip:SetText("Interval (seconds)", 1, 0.82, 0)
+    GameTooltip:AddLine("The number of seconds between each periodic screenshot with a minimum of 300 seconds", 1, 1, 1, true)
+    GameTooltip:AddLine("Press ENTER to save", 1, 0, 0, true)
+    GameTooltip:Show()
+end)
+
+txtInterval:SetScript("OnLeave", function(self)
+    GameTooltip:Hide()
+end)
+
+local lblInterval = panel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+lblInterval:SetPoint("LEFT", txtInterval, "RIGHT", 4, 0)
+lblInterval:SetText("Interval (seconds)")
 
 -- Overrides the created in CreateCheckbox, that it why it needs to set the value in the config as well
 cbPeriodic:SetScript("OnClick", function(self)
