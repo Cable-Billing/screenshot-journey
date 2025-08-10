@@ -6,3 +6,4 @@
 ## SavedVariables: ScreenshotJourney_Config
 
 main.lua
+options.lua
