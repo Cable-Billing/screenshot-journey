@@ -14,6 +14,11 @@ ScreenshotJourney_Config = ScreenshotJourney_Config or {
     periodicInterval = 1800,
 }
 
+-- TODO
+-- When you recive loot from a roll
+-- When a battleground ends
+-- When an arena match ends
+
 local f = CreateFrame("Frame")
 local elapsedSinceLast = 0
 local delayQueue = {}
