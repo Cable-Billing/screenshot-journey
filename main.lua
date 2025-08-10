@@ -25,9 +25,7 @@ f:SetScript("OnEvent", function(self, event, ...)
         QueueScreenshot()
     elseif event == "QUEST_TURNED_IN" and ScreenshotJourney_Config.questComplete then
         QueueScreenshot()
-    elseif event == "BOSS_KILL" and ScreenshotJourney_Config.bossKill then
-        QueueScreenshot()
-    elseif event == "COMBAT_LOG_EVENT_UNFILTERED" and ScreenshotJourney_Config.pvpKill then
+    elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
         local timestamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = ...
 
         if subEvent == "PARTY_KILL" and destGUID then
@@ -42,9 +40,9 @@ f:SetScript("OnEvent", function(self, event, ...)
             -- print("destName " .. tostring(destName))
             -- print("destFlags " .. tostring(destFlags))
             -- print("destRaidFlags " .. tostring(destRaidFlags))
-            if bit.band(destGUID, COMBATLOG_OBJECT_TYPE_PLAYER) > 0 then
+            if bit.band(destGUID, COMBATLOG_OBJECT_TYPE_PLAYER) > 0 and ScreenshotJourney_Config.pvpKill then
                 QueueScreenshot()
-            elseif bit.band(destGUID, COMBATLOG_OBJECT_TYPE_NPC) > 0 then
+            elseif bit.band(destGUID, COMBATLOG_OBJECT_TYPE_NPC) > 0 and ScreenshotJourney_Config.bossKill then
                 -- print("killed npc")
                 -- QueueScreenshot()
             end
@@ -54,7 +52,6 @@ end)
 
 f:RegisterEvent("PLAYER_LEVEL_UP")
 f:RegisterEvent("QUEST_TURNED_IN")
-f:RegisterEvent("BOSS_KILL")
 f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 
 f:SetScript("OnUpdate", function(self, elapsed)
