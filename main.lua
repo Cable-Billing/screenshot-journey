@@ -28,8 +28,9 @@ f:SetScript("OnEvent", function(self, event, ...)
     elseif event == "BOSS_KILL" and ScreenshotJourney_Config.bossKill then
         QueueScreenshot()
     elseif event == "COMBAT_LOG_EVENT_UNFILTERED" and ScreenshotJourney_Config.pvpKill then
-        local _, subEvent, _, _, _, _, _, destGUID, destName, destFlags = CombatLogGetCurrentEventInfo()
-        if subEvent == "PARTY_KILL" and bit.band(destFlags, COMBATLOG_OBJECT_TYPE_PLAYER) > 0 then
+        local timestamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = ...
+
+        if subEvent == "PARTY_KILL" and destFlags and bit.band(destFlags, COMBATLOG_OBJECT_TYPE_PLAYER) > 0 then
             QueueScreenshot()
         end
     end
