@@ -20,7 +20,6 @@ ScreenshotJourney_Config = ScreenshotJourney_Config or {
 }
 
 -- TODO
--- When you recive loot from a roll
 -- When a battleground ends
 -- When an arena match ends
 
