@@ -24,6 +24,30 @@ local title = content:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 title:SetPoint("TOPLEFT", 16, -16)
 title:SetText("Screenshot Journey Settings")
 
+-- Warning and information section at the top of the options
+local lblWarning = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+lblWarning:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
+lblWarning:SetText("Settings are saved on a per character basis")
+lblWarning:SetTextColor(1, 0.3, 0.3)
+
+local lblInfo1 = content:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+lblInfo1:SetPoint("TOPLEFT", lblWarning, "BOTTOMLEFT", 0, -6)
+lblInfo1:SetText("Active issues can be viewed on the GitHub issues page")
+
+local lblInfo2 = content:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+lblInfo2:SetPoint("TOPLEFT", lblInfo1, "BOTTOMLEFT", 0, -6)
+lblInfo2:SetText("You can also report issues there")
+
+local txtIssuesURL = CreateFrame("EditBox", "SJ_TXT_IssuesURL", content, "InputBoxTemplate")
+txtIssuesURL:SetSize(350, 20)
+txtIssuesURL:SetPoint("TOPLEFT", lblInfo2, "BOTTOMLEFT", 0, -4)
+txtIssuesURL:SetAutoFocus(false)
+txtIssuesURL:SetCursorPosition(0)
+txtIssuesURL:SetScript("OnEditFocusGained", function(self) self:HighlightText() end)
+txtIssuesURL:SetScript("OnMouseUp", function(self) self:HighlightText() end)
+txtIssuesURL:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
+txtIssuesURL:SetScript("OnShow", function(self) self:SetText("https://github.com/Cable-Billing/screenshot-journey/issues") end)
+
 local function CreateCheckbox(name, label, tooltip, settingKey)
     local cb = CreateFrame("CheckButton", name, content, "InterfaceOptionsCheckButtonTemplate")
     _G[cb:GetName() .. "Text"]:SetText(label)
@@ -50,7 +74,7 @@ local function CreateCheckbox(name, label, tooltip, settingKey)
 end
 
 local cbLevelUp = CreateCheckbox("SJ_CB_LevelUp", "Level Up", "Take screenshot you level up", "levelUp")
-cbLevelUp:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
+cbLevelUp:SetPoint("TOPLEFT", txtIssuesURL, "BOTTOMLEFT", 0, -12)
 
 local cbDeath = CreateCheckbox("SJ_CB_Death", "Death", "Take screenshot when you die", "death")
 cbDeath:SetPoint("TOPLEFT", cbLevelUp, "BOTTOMLEFT", 0, -8)
@@ -101,7 +125,7 @@ cbLootRoll:SetScript("OnClick", function(self)
 end)
 
 local cbLootReceived = CreateCheckbox("SJ_CB_LootReceived", "Loot Received", "Take screenshot when you receive loot from a roll", "lootReceived")
-cbLootReceived:SetPoint("TOPLEFT", cbLootRollOrange, "BOTTOMLEFT", -20, -8)
+cbLootReceived:SetPoint("LEFT", cbLootRoll, "RIGHT", 160, 0)
 
 local cbLootReceivedGreen = CreateCheckbox("SJ_CB_LootReceivedGreen", "Green (Uncommon)", "Take screenshot on green (uncommon) loot received", "lootReceivedGreen")
 cbLootReceivedGreen:SetPoint("TOPLEFT", cbLootReceived, "BOTTOMLEFT", 20, -4)
@@ -136,7 +160,7 @@ cbLootReceived:SetScript("OnClick", function(self)
 end)
 
 local cbPvPKill = CreateCheckbox("SJ_CB_PvPKill", "PvP Kill", "Take screenshot when you or your party kills another player", "pvpKill")
-cbPvPKill:SetPoint("TOPLEFT", cbLootReceivedOrange, "BOTTOMLEFT", -20, -8)
+cbPvPKill:SetPoint("TOPLEFT", cbLootRollOrange, "BOTTOMLEFT", -20, -8)
 
 local cbBattlegroundArenaEnd = CreateCheckbox("SJ_CB_BattlegroundArenaEnd", "Battleground/Arena End", "Take screenshot when a battleground or arena match ends and scoreboard appears", "battlegroundArenaEnd")
 cbBattlegroundArenaEnd:SetPoint("TOPLEFT", cbPvPKill, "BOTTOMLEFT", 0, -8)
