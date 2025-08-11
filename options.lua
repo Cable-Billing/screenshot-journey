@@ -42,7 +42,8 @@ local function CreateCheckbox(name, label, tooltip, settingKey)
     end)
 
     cb:SetScript("OnClick", function(self)
-        ScreenshotJourney_Config[settingKey] = self:GetChecked()
+        local val = self:GetChecked() and true or false
+        ScreenshotJourney_Config[settingKey] = val
     end)
 
     return cb
@@ -84,8 +85,9 @@ _G[cbLootRollOrange:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[5].hex .. "
 
 -- Overrides the created in CreateCheckbox, that it why it needs to set the value in the config as well
 cbLootRoll:SetScript("OnClick", function(self)
-    ScreenshotJourney_Config.lootRoll = self:GetChecked()
-    if self:GetChecked() then
+    local val = self:GetChecked() and true or false
+    ScreenshotJourney_Config.lootRoll = val
+    if val then
         cbLootRollGreen:Enable()
         cbLootRollBlue:Enable()
         cbLootRollPurple:Enable()
@@ -118,8 +120,9 @@ cbLootReceivedOrange:SetPoint("TOPLEFT", cbLootReceivedPurple, "BOTTOMLEFT", 0, 
 _G[cbLootReceivedOrange:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[5].hex .. "Orange (Legendary)|r")
 
 cbLootReceived:SetScript("OnClick", function(self)
-    ScreenshotJourney_Config.lootReceived = self:GetChecked()
-    if self:GetChecked() then
+    local val = self:GetChecked() and true or false
+    ScreenshotJourney_Config.lootReceived = val
+    if val then
         cbLootReceivedGreen:Enable()
         cbLootReceivedBlue:Enable()
         cbLootReceivedPurple:Enable()
@@ -165,8 +168,9 @@ lblInterval:SetText("Interval (seconds)")
 
 -- Overrides the created in CreateCheckbox, that it why it needs to set the value in the config as well
 cbPeriodic:SetScript("OnClick", function(self)
-    ScreenshotJourney_Config.periodic = self:GetChecked()
-    if self:GetChecked() then
+    local val = self:GetChecked() and true or false
+    ScreenshotJourney_Config.periodic = val
+    if val then
         txtInterval:EnableMouse(true)
         txtInterval:SetTextColor(1, 1, 1)
     else
