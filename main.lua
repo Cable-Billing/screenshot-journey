@@ -1,4 +1,6 @@
-ScreenshotJourney_Config = ScreenshotJourney_Config or {
+ScreenshotJourney_Config = ScreenshotJourney_Config or {}
+
+local DEFAULTS = {
     levelUp = true,
     death = true,
     achievementEarned = true,
@@ -20,6 +22,14 @@ ScreenshotJourney_Config = ScreenshotJourney_Config or {
     periodicInterval = 1800,
 }
 
+local function ApplyDefaults()
+    for key, value in pairs(DEFAULTS) do
+        if ScreenshotJourney_Config[key] == nil then
+            ScreenshotJourney_Config[key] = value
+        end
+    end
+end
+
 local f = CreateFrame("Frame")
 local elapsedSinceLast = 0
 local delayQueue = {}
@@ -29,7 +39,28 @@ local function TakeScreenshotDelayed(delay)
     table.insert(delayQueue, delay)
 end
 
+local function RegisterGameplayEvents()
+    f:RegisterEvent("PLAYER_LEVEL_UP")
+    f:RegisterEvent("PLAYER_DEAD")
+    f:RegisterEvent("ACHIEVEMENT_EARNED")
+    f:RegisterEvent("QUEST_TURNED_IN")
+    f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+    f:RegisterEvent("START_LOOT_ROLL")
+    f:RegisterEvent("CHAT_MSG_LOOT")
+    f:RegisterEvent("UPDATE_BATTLEFIELD_SCORE")
+end
+
 f:SetScript("OnEvent", function(self, event, ...)
+    if event == "ADDON_LOADED" then
+        local addonName = ...
+        if addonName == "screenshot-journey" then
+            ApplyDefaults()
+            RegisterGameplayEvents()
+            self:UnregisterEvent("ADDON_LOADED")
+            return
+        end
+    end
+
     if event == "PLAYER_LEVEL_UP" and ScreenshotJourney_Config.levelUp then
         TakeScreenshotDelayed(0.1)
     elseif event == "PLAYER_DEAD" and ScreenshotJourney_Config.death then
@@ -110,14 +141,7 @@ f:SetScript("OnEvent", function(self, event, ...)
     end
 end)
 
-f:RegisterEvent("PLAYER_LEVEL_UP")
-f:RegisterEvent("PLAYER_DEAD")
-f:RegisterEvent("ACHIEVEMENT_EARNED")
-f:RegisterEvent("QUEST_TURNED_IN")
-f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-f:RegisterEvent("START_LOOT_ROLL")
-f:RegisterEvent("CHAT_MSG_LOOT")
-f:RegisterEvent("UPDATE_BATTLEFIELD_SCORE")
+f:RegisterEvent("ADDON_LOADED")
 
 f:SetScript("OnUpdate", function(self, elapsed)
     -- Periodic screenshot timer
