@@ -35,8 +35,11 @@ local elapsedSinceLast = 0
 local delayQueue = {}
 
 local function TakeScreenshotDelayed(delay)
-    -- Add a new delay timer to the queue
-    table.insert(delayQueue, delay)
+    if #delayQueue > 0 then
+        delayQueue[1] = delay
+    else
+        table.insert(delayQueue, delay)
+    end
 end
 
 local function RegisterGameplayEvents()
