@@ -49,6 +49,7 @@ local function RegisterGameplayEvents()
     f:RegisterEvent("ACHIEVEMENT_EARNED")
     f:RegisterEvent("ZONE_CHANGED")
     f:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+    f:RegisterEvent("ZONE_CHANGED_INDOORS")
     f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
     f:RegisterEvent("START_LOOT_ROLL")
     f:RegisterEvent("CHAT_MSG_LOOT")
@@ -72,7 +73,7 @@ f:SetScript("OnEvent", function(self, event, ...)
         TakeScreenshotDelayed(0.1)
     elseif event == "ACHIEVEMENT_EARNED" and ScreenshotJourney_Config.achievementEarned then
         TakeScreenshotDelayed(1.0) -- Delay so achievement is clearly visible
-    elseif (event == "ZONE_CHANGED" or event == "ZONE_CHANGED_NEW_AREA") and ScreenshotJourney_Config.firstTimeVisitingLocation then
+    elseif (event == "ZONE_CHANGED" or event == "ZONE_CHANGED_NEW_AREA" or event == "ZONE_CHANGED_INDOORS") and ScreenshotJourney_Config.firstTimeVisitingLocation then
         ScreenshotJourney_VisitedLocations = ScreenshotJourney_VisitedLocations or {}
 
         local zoneName = GetRealZoneText() or GetZoneText() or "Unknown Zone"
