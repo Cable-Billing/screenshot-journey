@@ -22,7 +22,7 @@ scrollFrame:SetScrollChild(content)
 
 local title = content:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 title:SetPoint("TOPLEFT", 16, -16)
-title:SetText("Screenshot Journey Settings")
+title:SetText("Screenshot Journey Settings v1.4")
 
 -- Warning and information section at the top of the options
 local lblWarning = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
