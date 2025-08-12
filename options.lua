@@ -162,8 +162,11 @@ end)
 local cbPvPKill = CreateCheckbox("SJ_CB_PvPKill", "PvP Kill", "Take a screenshot when you or your party kills another player", "pvpKill")
 cbPvPKill:SetPoint("TOPLEFT", cbLootRollOrange, "BOTTOMLEFT", -20, -8)
 
+local cbDuelFinished = CreateCheckbox("SJ_CB_DuelFinished", "Duel Finished", "Take a screenshot at the end of a duel, both winning and losing", "duelFinished")
+cbDuelFinished:SetPoint("TOPLEFT", cbPvPKill, "BOTTOMLEFT", 0, -8)
+
 local cbBattlegroundArenaEnd = CreateCheckbox("SJ_CB_BattlegroundArenaEnd", "Battleground/Arena End", "Take a screenshot when a battleground or arena match ends and scoreboard appears", "battlegroundArenaEnd")
-cbBattlegroundArenaEnd:SetPoint("TOPLEFT", cbPvPKill, "BOTTOMLEFT", 0, -8)
+cbBattlegroundArenaEnd:SetPoint("TOPLEFT", cbDuelFinished, "BOTTOMLEFT", 0, -8)
 
 local cbPeriodic = CreateCheckbox("SJ_CB_Periodic", "Periodic Screenshot", "Take a screenshot every set periodic interval", "periodic")
 cbPeriodic:SetPoint("TOPLEFT", cbBattlegroundArenaEnd, "BOTTOMLEFT", 0, -8)
@@ -243,6 +246,7 @@ panel.refresh = function()
     cbLootReceivedPurple:SetChecked(ScreenshotJourney_Config.lootReceivedPurple)
     cbLootReceivedOrange:SetChecked(ScreenshotJourney_Config.lootReceivedOrange)
     cbPvPKill:SetChecked(ScreenshotJourney_Config.pvpKill)
+    cbDuelFinished:SetChecked(ScreenshotJourney_Config.duelFinished)
     cbBattlegroundArenaEnd:SetChecked(ScreenshotJourney_Config.battlegroundArenaEnd)
     cbPeriodic:SetChecked(ScreenshotJourney_Config.periodic)
 
