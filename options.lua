@@ -22,7 +22,7 @@ scrollFrame:SetScrollChild(content)
 
 local title = content:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 title:SetPoint("TOPLEFT", 16, -16)
-title:SetText("Screenshot Journey Settings v1.4")
+title:SetText("Screenshot Journey Settings v1.5")
 
 -- Warning and information section at the top of the options
 local lblWarning = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -82,8 +82,11 @@ cbDeath:SetPoint("TOPLEFT", cbLevelUp, "BOTTOMLEFT", 0, -8)
 local cbAchievementEarned = CreateCheckbox("SJ_CB_AchievementEarned", "Achievement Earned", "Take a screenshot when you earn an achievement", "achievementEarned")
 cbAchievementEarned:SetPoint("TOPLEFT", cbDeath, "BOTTOMLEFT", 0, -8)
 
+local cbFirstTimeLocation = CreateCheckbox("SJ_CB_FirstTimeLocation", "First Time Visiting a Location", "Take a screenshot the first time you enter a zone or sub-zone", "firstTimeVisitingLocation")
+cbFirstTimeLocation:SetPoint("TOPLEFT", cbAchievementEarned, "BOTTOMLEFT", 0, -8)
+
 local cbBossKill = CreateCheckbox("SJ_CB_BossKill", "Boss Kill", "Take a screenshot when you or your party kills an instance boss", "bossKill")
-cbBossKill:SetPoint("TOPLEFT", cbAchievementEarned, "BOTTOMLEFT", 0, -8)
+cbBossKill:SetPoint("TOPLEFT", cbFirstTimeLocation, "BOTTOMLEFT", 0, -8)
 
 local cbLootRoll = CreateCheckbox("SJ_CB_LootRoll", "Loot Roll", "Take a screenshot when loot is to be rolled on", "lootRoll")
 cbLootRoll:SetPoint("TOPLEFT", cbBossKill, "BOTTOMLEFT", 0, -8)
@@ -227,6 +230,7 @@ panel.refresh = function()
     cbLevelUp:SetChecked(ScreenshotJourney_Config.levelUp)
     cbDeath:SetChecked(ScreenshotJourney_Config.death)
     cbAchievementEarned:SetChecked(ScreenshotJourney_Config.achievementEarned)
+    cbFirstTimeLocation:SetChecked(ScreenshotJourney_Config.firstTimeVisitingLocation)
     cbBossKill:SetChecked(ScreenshotJourney_Config.bossKill)
     cbLootRoll:SetChecked(ScreenshotJourney_Config.lootRoll)
     cbLootRollGreen:SetChecked(ScreenshotJourney_Config.lootRollGreen)

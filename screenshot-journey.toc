@@ -2,8 +2,8 @@
 ## Title: Screenshot Journey
 ## Notes: Takes screenshots on certain events during your journey
 ## Author: Cable-Billing
-## Version: 1.4
-## SavedVariablesPerCharacter: ScreenshotJourney_Config
+## Version: 1.5
+## SavedVariablesPerCharacter: ScreenshotJourney_Config, ScreenshotJourney_VisitedLocations
 
 main.lua
 options.lua
