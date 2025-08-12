@@ -18,6 +18,7 @@ local DEFAULTS = {
     lootReceivedPurple = true,
     lootReceivedOrange = true,
     pvpKill = true,
+    duelFinished = true,
     battlegroundArenaEnd = true,
     periodic = false,
     periodicInterval = 1800,
@@ -54,6 +55,7 @@ local function RegisterGameplayEvents()
     f:RegisterEvent("START_LOOT_ROLL")
     f:RegisterEvent("CHAT_MSG_LOOT")
     f:RegisterEvent("UPDATE_BATTLEFIELD_SCORE")
+    f:RegisterEvent("DUEL_FINISHED")
 end
 
 f:SetScript("OnEvent", function(self, event, ...)
@@ -153,6 +155,8 @@ f:SetScript("OnEvent", function(self, event, ...)
                 -- TakeScreenshotDelayed(0.1)
             end
         end
+    elseif event == "DUEL_FINISHED" and ScreenshotJourney_Config.duelFinished then
+        TakeScreenshotDelayed(0.1)
     elseif event == "UPDATE_BATTLEFIELD_SCORE" and ScreenshotJourney_Config.battlegroundArenaEnd then
         local inInstance, instanceType = IsInInstance()
 
