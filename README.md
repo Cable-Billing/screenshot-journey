@@ -24,6 +24,7 @@ Go to the [latest release](https://github.com/Cable-Billing/screenshot-journey/r
 | Level Up | Enabled | Take a screenshot you level up |
 | Death | Enabled | Take a screenshot when you die |
 | Achievement Earned | Enabled | Take a screenshot when you earn an achievement |
+| First Time Visiting a Location | Enabled | Take a screenshot the first time you enter a zone or sub-zone |
 | ~~Boss Kill~~ (currently doesn't work) | ~~Enabled~~ | ~~Take a screenshot when you or your party kills an instance boss~~ |
 | Loot Roll | Enabled | Take a screenshot when loot is to be rolled on |
 | Loot Roll - Green (Uncommon) | Disabled | Take a screenshot on green (uncommon) loot is rolled on |
