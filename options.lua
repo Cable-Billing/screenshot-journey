@@ -73,34 +73,34 @@ local function CreateCheckbox(name, label, tooltip, settingKey)
     return cb
 end
 
-local cbLevelUp = CreateCheckbox("SJ_CB_LevelUp", "Level Up", "Take screenshot you level up", "levelUp")
+local cbLevelUp = CreateCheckbox("SJ_CB_LevelUp", "Level Up", "Take a screenshot you level up", "levelUp")
 cbLevelUp:SetPoint("TOPLEFT", txtIssuesURL, "BOTTOMLEFT", 0, -12)
 
-local cbDeath = CreateCheckbox("SJ_CB_Death", "Death", "Take screenshot when you die", "death")
+local cbDeath = CreateCheckbox("SJ_CB_Death", "Death", "Take a screenshot when you die", "death")
 cbDeath:SetPoint("TOPLEFT", cbLevelUp, "BOTTOMLEFT", 0, -8)
 
-local cbAchievementEarned = CreateCheckbox("SJ_CB_AchievementEarned", "Achievement Earned", "Take screenshot when you earn an achievement", "achievementEarned")
+local cbAchievementEarned = CreateCheckbox("SJ_CB_AchievementEarned", "Achievement Earned", "Take a screenshot when you earn an achievement", "achievementEarned")
 cbAchievementEarned:SetPoint("TOPLEFT", cbDeath, "BOTTOMLEFT", 0, -8)
 
-local cbBossKill = CreateCheckbox("SJ_CB_BossKill", "Boss Kill", "Take screenshot when you or your party kills an instance boss", "bossKill")
+local cbBossKill = CreateCheckbox("SJ_CB_BossKill", "Boss Kill", "Take a screenshot when you or your party kills an instance boss", "bossKill")
 cbBossKill:SetPoint("TOPLEFT", cbAchievementEarned, "BOTTOMLEFT", 0, -8)
 
-local cbLootRoll = CreateCheckbox("SJ_CB_LootRoll", "Loot Roll", "Take screenshot when loot is to be rolled on", "lootRoll")
+local cbLootRoll = CreateCheckbox("SJ_CB_LootRoll", "Loot Roll", "Take a screenshot when loot is to be rolled on", "lootRoll")
 cbLootRoll:SetPoint("TOPLEFT", cbBossKill, "BOTTOMLEFT", 0, -8)
 
-local cbLootRollGreen = CreateCheckbox("SJ_CB_LootGreen", "Green (Uncommon)", "Take screenshot on green (uncommon) loot rolls", "lootRollGreen")
+local cbLootRollGreen = CreateCheckbox("SJ_CB_LootGreen", "Green (Uncommon)", "Take a screenshot on green (uncommon) loot is rolled on", "lootRollGreen")
 cbLootRollGreen:SetPoint("TOPLEFT", cbLootRoll, "BOTTOMLEFT", 20, -4)
 _G[cbLootRollGreen:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[2].hex .. "Green (Uncommon)|r")
 
-local cbLootRollBlue = CreateCheckbox("SJ_CB_LootBlue", "Blue (Rare)", "Take screenshot on blue (rare) loot rolls", "lootRollBlue")
+local cbLootRollBlue = CreateCheckbox("SJ_CB_LootBlue", "Blue (Rare)", "Take a screenshot on blue (rare) loot is rolled on", "lootRollBlue")
 cbLootRollBlue:SetPoint("TOPLEFT", cbLootRollGreen, "BOTTOMLEFT", 0, -4)
 _G[cbLootRollBlue:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[3].hex .. "Blue (Rare)|r")
 
-local cbLootRollPurple = CreateCheckbox("SJ_CB_LootPurple", "Purple (Epic)", "Take screenshot on purple (epic) loot rolls", "lootRollPurple")
+local cbLootRollPurple = CreateCheckbox("SJ_CB_LootPurple", "Purple (Epic)", "Take a screenshot on purple (epic) loot is rolled on", "lootRollPurple")
 cbLootRollPurple:SetPoint("TOPLEFT", cbLootRollBlue, "BOTTOMLEFT", 0, -4)
 _G[cbLootRollPurple:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[4].hex .. "Purple (Epic)|r")
 
-local cbLootRollOrange = CreateCheckbox("SJ_CB_LootOrange", "Orange (Legendary)", "Take screenshot on orange (legendary) loot rolls", "lootRollOrange")
+local cbLootRollOrange = CreateCheckbox("SJ_CB_LootOrange", "Orange (Legendary)", "Take a screenshot on orange (legendary) loot is rolled on", "lootRollOrange")
 cbLootRollOrange:SetPoint("TOPLEFT", cbLootRollPurple, "BOTTOMLEFT", 0, -4)
 _G[cbLootRollOrange:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[5].hex .. "Orange (Legendary)|r")
 
@@ -121,22 +121,22 @@ cbLootRoll:SetScript("OnClick", function(self)
     end
 end)
 
-local cbLootReceived = CreateCheckbox("SJ_CB_LootReceived", "Loot Received", "Take screenshot when you receive loot from a roll", "lootReceived")
+local cbLootReceived = CreateCheckbox("SJ_CB_LootReceived", "Loot Received", "Take a screenshot when you receive loot, or win it from a roll", "lootReceived")
 cbLootReceived:SetPoint("LEFT", cbLootRoll, "RIGHT", 160, 0)
 
-local cbLootReceivedGreen = CreateCheckbox("SJ_CB_LootReceivedGreen", "Green (Uncommon)", "Take screenshot on green (uncommon) loot received", "lootReceivedGreen")
+local cbLootReceivedGreen = CreateCheckbox("SJ_CB_LootReceivedGreen", "Green (Uncommon)", "Take a screenshot on green (uncommon) loot received, or won", "lootReceivedGreen")
 cbLootReceivedGreen:SetPoint("TOPLEFT", cbLootReceived, "BOTTOMLEFT", 20, -4)
 _G[cbLootReceivedGreen:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[2].hex .. "Green (Uncommon)|r")
 
-local cbLootReceivedBlue = CreateCheckbox("SJ_CB_LootReceivedBlue", "Blue (Rare)", "Take screenshot on blue (rare) loot received", "lootReceivedBlue")
+local cbLootReceivedBlue = CreateCheckbox("SJ_CB_LootReceivedBlue", "Blue (Rare)", "Take a screenshot on blue (rare) loot received, or won", "lootReceivedBlue")
 cbLootReceivedBlue:SetPoint("TOPLEFT", cbLootReceivedGreen, "BOTTOMLEFT", 0, -4)
 _G[cbLootReceivedBlue:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[3].hex .. "Blue (Rare)|r")
 
-local cbLootReceivedPurple = CreateCheckbox("SJ_CB_LootReceivedPurple", "Purple (Epic)", "Take screenshot on purple (epic) loot received", "lootReceivedPurple")
+local cbLootReceivedPurple = CreateCheckbox("SJ_CB_LootReceivedPurple", "Purple (Epic)", "Take a screenshot on purple (epic) loot received, or won", "lootReceivedPurple")
 cbLootReceivedPurple:SetPoint("TOPLEFT", cbLootReceivedBlue, "BOTTOMLEFT", 0, -4)
 _G[cbLootReceivedPurple:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[4].hex .. "Purple (Epic)|r")
 
-local cbLootReceivedOrange = CreateCheckbox("SJ_CB_LootReceivedOrange", "Orange (Legendary)", "Take screenshot on orange (legendary) loot received", "lootReceivedOrange")
+local cbLootReceivedOrange = CreateCheckbox("SJ_CB_LootReceivedOrange", "Orange (Legendary)", "Take a screenshot on orange (legendary) loot received, or won", "lootReceivedOrange")
 cbLootReceivedOrange:SetPoint("TOPLEFT", cbLootReceivedPurple, "BOTTOMLEFT", 0, -4)
 _G[cbLootReceivedOrange:GetName() .. "Text"]:SetText(ITEM_QUALITY_COLORS[5].hex .. "Orange (Legendary)|r")
 
@@ -156,13 +156,13 @@ cbLootReceived:SetScript("OnClick", function(self)
     end
 end)
 
-local cbPvPKill = CreateCheckbox("SJ_CB_PvPKill", "PvP Kill", "Take screenshot when you or your party kills another player", "pvpKill")
+local cbPvPKill = CreateCheckbox("SJ_CB_PvPKill", "PvP Kill", "Take a screenshot when you or your party kills another player", "pvpKill")
 cbPvPKill:SetPoint("TOPLEFT", cbLootRollOrange, "BOTTOMLEFT", -20, -8)
 
-local cbBattlegroundArenaEnd = CreateCheckbox("SJ_CB_BattlegroundArenaEnd", "Battleground/Arena End", "Take screenshot when a battleground or arena match ends and scoreboard appears", "battlegroundArenaEnd")
+local cbBattlegroundArenaEnd = CreateCheckbox("SJ_CB_BattlegroundArenaEnd", "Battleground/Arena End", "Take a screenshot when a battleground or arena match ends and scoreboard appears", "battlegroundArenaEnd")
 cbBattlegroundArenaEnd:SetPoint("TOPLEFT", cbPvPKill, "BOTTOMLEFT", 0, -8)
 
-local cbPeriodic = CreateCheckbox("SJ_CB_Periodic", "Periodic Screenshot", "Take screenshot every set periodic interval", "periodic")
+local cbPeriodic = CreateCheckbox("SJ_CB_Periodic", "Periodic Screenshot", "Take a screenshot every set periodic interval", "periodic")
 cbPeriodic:SetPoint("TOPLEFT", cbBattlegroundArenaEnd, "BOTTOMLEFT", 0, -8)
 
 local txtInterval = CreateFrame("EditBox", "SJ_TXT_Interval", content, "InputBoxTemplate")

@@ -13,26 +13,27 @@ This addon has been designed for the client for [Project Epoch](https://www.proj
 
 Go to the [latest release](https://github.com/Cable-Billing/screenshot-journey/releases/latest), download the `.zip` file and install it as you would any other addon.
 
-## Default Settings
+## Availible Settings
 
 *Settings are saved on a per character basis.*
 
-- Level Up: <span style="color:green;">Enabled</span>
-- Death: <span style="color:green;">Enabled</span>
-- Achievement Earned: <span style="color:green;">Enabled</span>
-- Quest Complete: <span style="color:red;">Disabled</span>
-- Boss Kill: <span style="color:green;">Enabled</span>
-- Loot Roll: <span style="color:green;">Enabled</span>
-  - <span style="color:#1eff00;">Green (Uncommon)</span>: <span style="color:red;">Disabled</span>
-  - <span style="color:#0070dd;">Blue (Rare)</span>: <span style="color:green;">Enabled</span>
-  - <span style="color:#a335ee;">Purple (Epic)</span>: <span style="color:green;">Enabled</span>
-  - <span style="color:#ff8000;">Orange (Legendary)</span>: <span style="color:green;">Enabled</span>
-- Loot Received: <span style="color:green;">Enabled</span>
-  - <span style="color:#1eff00;">Green (Uncommon)</span>: <span style="color:red;">Disabled</span>
-  - <span style="color:#0070dd;">Blue (Rare)</span>: <span style="color:green;">Enabled</span>
-  - <span style="color:#a335ee;">Purple (Epic)</span>: <span style="color:green;">Enabled</span>
-  - <span style="color:#ff8000;">Orange (Legendary)</span>: <span style="color:green;">Enabled</span>
-- PvP Kill: <span style="color:green;">Enabled</span>
-- Battleground/Arena End: <span style="color:green;">Enabled</span>
-- Periodic Screenshot: <span style="color:red;">Disabled</span>
-  - Interval (seconds): 1800
+| Setting Name | Default Value | Description |
+|--------------|---------------|-------------|
+| Level Up | Enabled | Take a screenshot you level up |
+| Death | Enabled | Take a screenshot when you die |
+| Achievement Earned | Enabled | Take a screenshot when you earn an achievement |
+| ~~Boss Kill~~ | ~~Enabled~~ | ~~Take a screenshot when you or your party kills an instance boss~~ |
+| Loot Roll | Enabled | Take a screenshot when loot is to be rolled on |
+| Loot Roll - Green (Uncommon) | Disabled | Take a screenshot on green (uncommon) loot is rolled on |
+| Loot Roll - Blue (Rare) | Enabled | Take a screenshot on blue (rare) loot is rolled on |
+| Loot Roll - Purple (Epic) | Enabled | Take a screenshot on purple (epic) loot is rolled on |
+| Loot Roll - Orange (Legendary) | Enabled | Take a screenshot on orange (legendary) loot is rolled on |
+| Loot Received | Enabled | Take a screenshot when you receive loot, or win it from a roll |
+| Loot Received - Green (Uncommon) | Disabled | Take a screenshot on green (uncommon) loot received, or won |
+| Loot Received - Blue (Rare) | Enabled | Take a screenshot on blue (rare) loot received, or won |
+| Loot Received - Purple (Epic) | Enabled | Take a screenshot on purple (epic) loot received, or won |
+| Loot Received - Orange (Legendary) | Enabled | Take a screenshot on orange (legendary) loot received, or won |
+| PvP Kill | Enabled | Take a screenshot when you or your party kills another player |
+| Battleground/Arena End | Enabled | Take a screenshot when a battleground or arena match ends and scoreboard appears |
+| Periodic Screenshot | Disabled | Take a screenshot every set periodic interval |
+| Periodic Screenshot - Interval | 1800 seconds | The number of seconds between each periodic screenshot with a minimum of 300 seconds |
