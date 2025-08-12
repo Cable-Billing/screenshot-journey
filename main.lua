@@ -70,7 +70,7 @@ f:SetScript("OnEvent", function(self, event, ...)
     end
 
     if event == "PLAYER_LEVEL_UP" and ScreenshotJourney_Config.levelUp then
-        TakeScreenshotDelayed(0.1)
+        TakeScreenshotDelayed(0.3)
     elseif event == "PLAYER_DEAD" and ScreenshotJourney_Config.death then
         TakeScreenshotDelayed(0.1)
     elseif event == "ACHIEVEMENT_EARNED" and ScreenshotJourney_Config.achievementEarned then
