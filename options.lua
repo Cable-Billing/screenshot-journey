@@ -22,7 +22,7 @@ scrollFrame:SetScrollChild(content)
 
 local title = content:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 title:SetPoint("TOPLEFT", 16, -16)
-title:SetText("Screenshot Journey Settings v1.6")
+title:SetText("Screenshot Journey v1.6.1")
 
 -- Warning and information section at the top of the options
 local lblWarning = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -30,23 +30,19 @@ lblWarning:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
 lblWarning:SetText("Settings are saved on a per character basis")
 lblWarning:SetTextColor(1, 0.3, 0.3)
 
-local lblInfo1 = content:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-lblInfo1:SetPoint("TOPLEFT", lblWarning, "BOTTOMLEFT", 0, -6)
-lblInfo1:SetText("Active issues can be viewed on the GitHub issues page")
-
-local lblInfo2 = content:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-lblInfo2:SetPoint("TOPLEFT", lblInfo1, "BOTTOMLEFT", 0, -6)
-lblInfo2:SetText("You can also report issues there")
+local lblInfo = content:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+lblInfo:SetPoint("TOPLEFT", lblWarning, "BOTTOMLEFT", 0, -6)
+lblInfo:SetText("Visit the GitHub page to check for updates")
 
 local txtIssuesURL = CreateFrame("EditBox", "SJ_TXT_IssuesURL", content, "InputBoxTemplate")
-txtIssuesURL:SetSize(350, 20)
-txtIssuesURL:SetPoint("TOPLEFT", lblInfo2, "BOTTOMLEFT", 0, -4)
+txtIssuesURL:SetSize(300, 20)
+txtIssuesURL:SetPoint("TOPLEFT", lblInfo, "BOTTOMLEFT", 0, -6)
 txtIssuesURL:SetAutoFocus(false)
 txtIssuesURL:SetCursorPosition(0)
 txtIssuesURL:SetScript("OnEditFocusGained", function(self) self:HighlightText() end)
 txtIssuesURL:SetScript("OnMouseUp", function(self) self:HighlightText() end)
 txtIssuesURL:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
-txtIssuesURL:SetScript("OnShow", function(self) self:SetText("https://github.com/Cable-Billing/screenshot-journey/issues") end)
+txtIssuesURL:SetScript("OnShow", function(self) self:SetText("https://github.com/Cable-Billing/screenshot-journey") end)
 
 local function CreateCheckbox(name, label, tooltip, settingKey)
     local cb = CreateFrame("CheckButton", name, content, "InterfaceOptionsCheckButtonTemplate")
