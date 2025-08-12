@@ -4,7 +4,6 @@ local DEFAULTS = {
     levelUp = true,
     death = true,
     achievementEarned = true,
-    questComplete = false,
     bossKill = true,
     lootRoll = true,
     lootRollGreen = false,
@@ -46,7 +45,6 @@ local function RegisterGameplayEvents()
     f:RegisterEvent("PLAYER_LEVEL_UP")
     f:RegisterEvent("PLAYER_DEAD")
     f:RegisterEvent("ACHIEVEMENT_EARNED")
-    f:RegisterEvent("QUEST_TURNED_IN")
     f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
     f:RegisterEvent("START_LOOT_ROLL")
     f:RegisterEvent("CHAT_MSG_LOOT")
@@ -70,8 +68,6 @@ f:SetScript("OnEvent", function(self, event, ...)
         TakeScreenshotDelayed(0.1)
     elseif event == "ACHIEVEMENT_EARNED" and ScreenshotJourney_Config.achievementEarned then
         TakeScreenshotDelayed(1.0) -- Delay so achievement is clearly visible
-    elseif event == "QUEST_TURNED_IN" and ScreenshotJourney_Config.questComplete then
-        TakeScreenshotDelayed(0.1)
     elseif event == "START_LOOT_ROLL" and ScreenshotJourney_Config.lootRoll then
         local lootSlot = ...
         local texture, itemName, itemCount, quality = GetLootRollItemInfo(lootSlot)
