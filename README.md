@@ -25,7 +25,7 @@ Go to the [latest release](https://github.com/Cable-Billing/screenshot-journey/r
 | Death | Enabled | Take a screenshot when you die |
 | Achievement Earned | Enabled | Take a screenshot when you earn an achievement |
 | First Time Visiting a Location | Enabled | Take a screenshot the first time you enter a zone or sub-zone |
-| ~~Boss Kill~~ (currently doesn't work) | ~~Enabled~~ | ~~Take a screenshot when you or your party kills an instance boss~~ |
+| Rare Encountered | Enabled | Take a screenshot when you target a rare mob for the first time |
 | Loot Roll | Enabled | Take a screenshot when loot is to be rolled on |
 | Loot Roll - Green (Uncommon) | Disabled | Take a screenshot on green (uncommon) loot is rolled on |
 | Loot Roll - Blue (Rare) | Enabled | Take a screenshot on blue (rare) loot is rolled on |
@@ -39,7 +39,6 @@ Go to the [latest release](https://github.com/Cable-Billing/screenshot-journey/r
 | PvP Kill | Enabled | Take a screenshot when you or your party kills another player |
 | Duel Finished | Enabled | Take a screenshot at the end of a duel, both winning and losing |
 | Battleground/Arena End | Enabled | Take a screenshot when a battleground or arena match ends and scoreboard appears |
-| Rare Encountered | Enabled | Take a screenshot when you target a rare mob for the first time |
 | Periodic Screenshot | Disabled | Take a screenshot every set periodic interval |
 | Periodic Screenshot - Interval | 1800 seconds | The number of seconds between each periodic screenshot with a minimum of 300 seconds |
 
