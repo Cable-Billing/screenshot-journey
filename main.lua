@@ -7,6 +7,7 @@ local DEFAULTS = {
     death = true,
     achievementEarned = true,
     firstTimeVisitingLocation = true,
+    rareEncountered = true,
     lootRoll = true,
     lootRollGreen = false,
     lootRollBlue = true,
@@ -22,8 +23,6 @@ local DEFAULTS = {
     battlegroundArenaEnd = true,
     periodic = false,
     periodicInterval = 1800,
-    rareTarget = true,
-    rareKill = false,
 }
 
 local function ApplyDefaults()
@@ -144,16 +143,9 @@ f:SetScript("OnEvent", function(self, event, ...)
         if subEvent == "PARTY_KILL" and destGUID then
             if bit.band(destGUID, COMBATLOG_OBJECT_TYPE_PLAYER) > 0 and ScreenshotJourney_Config.pvpKill then
                 TakeScreenshotDelayed(0.1)
-            elseif bit.band(destGUID, COMBATLOG_OBJECT_TYPE_NPC) > 0 and ScreenshotJourney_Config.rareKill then
-                local npcName = destName
-
-                if npcName and npcName ~= "" then
-                    ScreenshotJourney_RaresEncountered[npcName] = true
-                    TakeScreenshotDelayed(0.1)
-                end
             end
         end
-    elseif event == "PLAYER_TARGET_CHANGED" and ScreenshotJourney_Config.rareTarget then
+    elseif event == "PLAYER_TARGET_CHANGED" and ScreenshotJourney_Config.rareEncountered then
         local targetGUID = UnitGUID("target")
 
         if targetGUID and bit.band(targetGUID, COMBATLOG_OBJECT_TYPE_NPC) > 0 then
