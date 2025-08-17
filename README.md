@@ -39,5 +39,9 @@ Go to the [latest release](https://github.com/Cable-Billing/screenshot-journey/r
 | PvP Kill | Enabled | Take a screenshot when you or your party kills another player |
 | Duel Finished | Enabled | Take a screenshot at the end of a duel, both winning and losing |
 | Battleground/Arena End | Enabled | Take a screenshot when a battleground or arena match ends and scoreboard appears |
+| Rare Mob Target | Enabled | Take a screenshot when you target a rare mob for the first time, this option is mutually exclusive with 'Rare Mob Kill' |
+| Rare Mob Kill | Disabled | Take a screenshot when you or your party kills a rare mob for the first time, this option is mutually exclusive with 'Rare Mob Target' |
 | Periodic Screenshot | Disabled | Take a screenshot every set periodic interval |
 | Periodic Screenshot - Interval | 1800 seconds | The number of seconds between each periodic screenshot with a minimum of 300 seconds |
+
+**Note:** Locations visited and rare mobs encountered are saved per character.

@@ -22,7 +22,7 @@ scrollFrame:SetScrollChild(content)
 
 local title = content:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 title:SetPoint("TOPLEFT", 16, -16)
-title:SetText("Screenshot Journey v1.6.1")
+title:SetText("Screenshot Journey v1.7.0")
 
 -- Warning and information section at the top of the options
 local lblWarning = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -81,11 +81,34 @@ cbAchievementEarned:SetPoint("TOPLEFT", cbDeath, "BOTTOMLEFT", 0, -8)
 local cbFirstTimeLocation = CreateCheckbox("SJ_CB_FirstTimeLocation", "First Time Visiting a Location", "Take a screenshot the first time you enter a zone or sub-zone", "firstTimeVisitingLocation")
 cbFirstTimeLocation:SetPoint("TOPLEFT", cbAchievementEarned, "BOTTOMLEFT", 0, -8)
 
-local cbBossKill = CreateCheckbox("SJ_CB_BossKill", "Boss Kill", "Take a screenshot when you or your party kills an instance boss", "bossKill")
-cbBossKill:SetPoint("TOPLEFT", cbFirstTimeLocation, "BOTTOMLEFT", 0, -8)
+local cbRareTarget = CreateCheckbox("SJ_CB_RareTarget", "Rare Mob Target", "Take a screenshot when you target a rare mob for the first time, this option is mutually exclusive with 'Rare Mob Kill'", "rareTarget")
+cbRareTarget:SetPoint("TOPLEFT", cbFirstTimeLocation, "BOTTOMLEFT", 0, -8)
+
+local cbRareKill = CreateCheckbox("SJ_CB_RareKill", "Rare Mob Kill", "Take a screenshot when you or your party kills a rare mob for the first time, this option is mutually exclusive with 'Rare Mob Target'", "rareKill")
+cbRareKill:SetPoint("LEFT", cbRareTarget, "RIGHT", 160, 0)
+
+-- Override the rare target checkbox to implement mutual exclusivity
+cbRareTarget:SetScript("OnClick", function(self)
+    local val = self:GetChecked() and true or false
+    ScreenshotJourney_Config.rareTarget = val
+    if val then
+        cbRareKill:SetChecked(false)
+        ScreenshotJourney_Config.rareKill = false
+    end
+end)
+
+-- Override the rare kill checkbox to implement mutual exclusivity
+cbRareKill:SetScript("OnClick", function(self)
+    local val = self:GetChecked() and true or false
+    ScreenshotJourney_Config.rareKill = val
+    if val then
+        cbRareTarget:SetChecked(false)
+        ScreenshotJourney_Config.rareTarget = false
+    end
+end)
 
 local cbLootRoll = CreateCheckbox("SJ_CB_LootRoll", "Loot Roll", "Take a screenshot when loot is to be rolled on", "lootRoll")
-cbLootRoll:SetPoint("TOPLEFT", cbBossKill, "BOTTOMLEFT", 0, -8)
+cbLootRoll:SetPoint("TOPLEFT", cbRareTarget, "BOTTOMLEFT", 0, -8)
 
 local cbLootRollGreen = CreateCheckbox("SJ_CB_LootGreen", "Green (Uncommon)", "Take a screenshot on green (uncommon) loot is rolled on", "lootRollGreen")
 cbLootRollGreen:SetPoint("TOPLEFT", cbLootRoll, "BOTTOMLEFT", 20, -4)
@@ -230,7 +253,6 @@ panel.refresh = function()
     cbDeath:SetChecked(ScreenshotJourney_Config.death)
     cbAchievementEarned:SetChecked(ScreenshotJourney_Config.achievementEarned)
     cbFirstTimeLocation:SetChecked(ScreenshotJourney_Config.firstTimeVisitingLocation)
-    cbBossKill:SetChecked(ScreenshotJourney_Config.bossKill)
     cbLootRoll:SetChecked(ScreenshotJourney_Config.lootRoll)
     cbLootRollGreen:SetChecked(ScreenshotJourney_Config.lootRollGreen)
     cbLootRollBlue:SetChecked(ScreenshotJourney_Config.lootRollBlue)
@@ -244,6 +266,8 @@ panel.refresh = function()
     cbPvPKill:SetChecked(ScreenshotJourney_Config.pvpKill)
     cbDuelFinished:SetChecked(ScreenshotJourney_Config.duelFinished)
     cbBattlegroundArenaEnd:SetChecked(ScreenshotJourney_Config.battlegroundArenaEnd)
+    cbRareTarget:SetChecked(ScreenshotJourney_Config.rareTarget)
+    cbRareKill:SetChecked(ScreenshotJourney_Config.rareKill)
     cbPeriodic:SetChecked(ScreenshotJourney_Config.periodic)
 
     if ScreenshotJourney_Config.lootRoll then

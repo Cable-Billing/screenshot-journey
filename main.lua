@@ -1,12 +1,12 @@
 ScreenshotJourney_Config = ScreenshotJourney_Config or {}
 ScreenshotJourney_VisitedLocations = ScreenshotJourney_VisitedLocations or {}
+ScreenshotJourney_RaresEncountered = ScreenshotJourney_RaresEncountered or {}
 
 local DEFAULTS = {
     levelUp = true,
     death = true,
     achievementEarned = true,
     firstTimeVisitingLocation = true,
-    bossKill = true,
     lootRoll = true,
     lootRollGreen = false,
     lootRollBlue = true,
@@ -22,6 +22,8 @@ local DEFAULTS = {
     battlegroundArenaEnd = true,
     periodic = false,
     periodicInterval = 1800,
+    rareTarget = true,
+    rareKill = false,
 }
 
 local function ApplyDefaults()
@@ -52,6 +54,7 @@ local function RegisterGameplayEvents()
     f:RegisterEvent("ZONE_CHANGED_NEW_AREA")
     f:RegisterEvent("ZONE_CHANGED_INDOORS")
     f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+    f:RegisterEvent("PLAYER_TARGET_CHANGED")
     f:RegisterEvent("START_LOOT_ROLL")
     f:RegisterEvent("CHAT_MSG_LOOT")
     f:RegisterEvent("UPDATE_BATTLEFIELD_SCORE")
@@ -112,12 +115,14 @@ f:SetScript("OnEvent", function(self, event, ...)
         end
     elseif event == "CHAT_MSG_LOOT" and ScreenshotJourney_Config.lootReceived then
         local msg = ...
+
         if msg:find("You receive loot") or msg:find("You won") then
             local itemLink = msg:match("(|c%x+|Hitem:.-|h%[.-%]|h|r)")
+
             if itemLink then
                 local _, _, quality = GetItemInfo(itemLink)
-
                 local shouldTake = false
+
                 if quality == 2 and ScreenshotJourney_Config.lootReceivedGreen then
                     shouldTake = true
                 elseif quality == 3 and ScreenshotJourney_Config.lootReceivedBlue then
@@ -137,22 +142,32 @@ f:SetScript("OnEvent", function(self, event, ...)
         local timestamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = ...
 
         if subEvent == "PARTY_KILL" and destGUID then
-            -- print("timestamp " .. tostring(timestamp))
-            -- print("subEvent " .. tostring(subEvent))
-            -- print("hideCaster " .. tostring(hideCaster))
-            -- print("sourceGUID " .. tostring(sourceGUID))
-            -- print("sourceName " .. tostring(sourceName))
-            -- print("sourceFlags " .. tostring(sourceFlags))
-            -- print("sourceRaidFlags " .. tostring(sourceRaidFlags))
-            -- print("destGUID " .. tostring(destGUID))
-            -- print("destName " .. tostring(destName))
-            -- print("destFlags " .. tostring(destFlags))
-            -- print("destRaidFlags " .. tostring(destRaidFlags))
             if bit.band(destGUID, COMBATLOG_OBJECT_TYPE_PLAYER) > 0 and ScreenshotJourney_Config.pvpKill then
                 TakeScreenshotDelayed(0.1)
-            elseif bit.band(destGUID, COMBATLOG_OBJECT_TYPE_NPC) > 0 and ScreenshotJourney_Config.bossKill then
-                -- print("killed npc")
-                -- TakeScreenshotDelayed(0.1)
+            elseif bit.band(destGUID, COMBATLOG_OBJECT_TYPE_NPC) > 0 and ScreenshotJourney_Config.rareKill then
+                local npcName = destName
+
+                if npcName and npcName ~= "" then
+                    ScreenshotJourney_RaresEncountered[npcName] = true
+                    TakeScreenshotDelayed(0.1)
+                end
+            end
+        end
+    elseif event == "PLAYER_TARGET_CHANGED" and ScreenshotJourney_Config.rareTarget then
+        local targetGUID = UnitGUID("target")
+
+        if targetGUID and bit.band(targetGUID, COMBATLOG_OBJECT_TYPE_NPC) > 0 then
+            local npcName = UnitName("target")
+
+            if npcName and npcName ~= "" then
+                local classification = UnitClassification("target")
+
+                if classification == "rare" or classification == "rareelite" then
+                    if not ScreenshotJourney_RaresEncountered[npcName] then
+                        ScreenshotJourney_RaresEncountered[npcName] = true
+                        TakeScreenshotDelayed(0)
+                    end
+                end
             end
         end
     elseif event == "DUEL_FINISHED" and ScreenshotJourney_Config.duelFinished then
